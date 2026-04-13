@@ -38,7 +38,7 @@ struct GoalsListView: View {
                             HStack(spacing: 12) {
                                 labelValue("分类", goal.category.rawValue)
                                 labelValue("提醒", String(format: "%02d:%02d", goal.reminderHour, goal.reminderMinute))
-                                labelValue("连续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天")
+                                labelValue("持续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天")
                             }
                         }
                         .padding(.vertical, 8)

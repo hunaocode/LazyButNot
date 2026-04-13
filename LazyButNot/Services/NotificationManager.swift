@@ -94,7 +94,7 @@ final class NotificationManager {
     private func scheduleSupervision(for goal: Goal, offset: Int, weekday: Int?) async {
         let content = UNMutableNotificationContent()
         content.title = "临近截止"
-        content.body = "「\(goal.name)」将在 \(offset) 分钟后截止，别断掉。"
+        content.body = "「\(goal.name)」将在 \(offset) 分钟后截止，别忘记完成哦。"
         content.sound = goal.ringEnabled ? .default : nil
 
         let deadlineTotalMinutes = goal.deadlineHour * 60 + goal.deadlineMinute

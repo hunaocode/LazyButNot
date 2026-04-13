@@ -91,7 +91,7 @@ struct HomeDashboardView: View {
         return VStack(alignment: .leading, spacing: 18) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("连续坚持，比爆发更重要")
+                    Text("持续坚持，比爆发更重要")
                         .font(.title3.bold())
                     Text("今天完成 \(progress.completed) / \(max(progress.total, 1)) 个目标")
                         .foregroundStyle(.secondary)

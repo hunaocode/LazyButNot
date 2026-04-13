@@ -35,14 +35,14 @@ struct SettingsView: View {
 
             Section("产品原则") {
                 principleRow("最小行动", "把目标拆到不会失败")
-                principleRow("连续坚持", "状态差也别完全停下")
+                principleRow("持续坚持", "状态差也别完全停下")
                 principleRow("主动提醒", "把记得做，变成被触发")
             }
 
             Section("关于") {
                 Text("懒人不懒")
                     .font(.headline)
-                Text("强调“连续坚持”而不是“高强度自律”的本地打卡 App。")
+                Text("强调“持续坚持”而不是“高强度自律”的本地打卡 App。")
                     .foregroundStyle(.secondary)
             }
         }

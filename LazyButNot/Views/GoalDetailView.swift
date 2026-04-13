@@ -24,7 +24,7 @@ struct GoalDetailView: View {
 
                     HStack(spacing: 12) {
                         metricCard("连续完成", "\(GoalStore.streak(for: goal, allowMinimumCompletion: false)) 天", color: .green)
-                        metricCard("连续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天", color: .orange)
+                        metricCard("持续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天", color: .orange)
                     }
                 }
                 .padding(.vertical, 8)
