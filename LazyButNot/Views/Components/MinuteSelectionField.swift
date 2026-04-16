@@ -95,7 +95,7 @@ struct MinuteSelectionField: View {
     }
 
     private var displayText: String {
-        "\(value) 分钟"
+        L10n.minuteCount(value)
     }
 
     private var isShowingCustomSelection: Bool {
@@ -104,9 +104,9 @@ struct MinuteSelectionField: View {
 
     private var customOptionTitle: String {
         if presetOptions.contains(value) {
-            return "自定义"
+            return String(localized: "common.custom", defaultValue: "自定义")
         }
-        return "自定义（\(value) 分钟）"
+        return L10n.customMinute(value)
     }
 
     private var minuteOptionsSheet: some View {
@@ -114,7 +114,7 @@ struct MinuteSelectionField: View {
             ScrollView {
                 VStack(spacing: 10) {
                 ForEach(presetOptions, id: \.self) { minutes in
-                    optionButton(title: "\(minutes) 分钟", minutes: minutes)
+                    optionButton(title: L10n.minuteCount(minutes), minutes: minutes)
                 }
 
                 Button {
@@ -145,7 +145,7 @@ struct MinuteSelectionField: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("关闭") {
+                    Button(String(localized: "common.close", defaultValue: "关闭")) {
                         activeSheet = nil
                     }
                 }
@@ -158,23 +158,23 @@ struct MinuteSelectionField: View {
             VStack(spacing: 0) {
                 Picker(title, selection: $customDraftValue) {
                     ForEach(customRange, id: \.self) { minutes in
-                        Text("\(minutes) 分钟").tag(minutes)
+                        Text(L10n.minuteCount(minutes)).tag(minutes)
                     }
                 }
                 .pickerStyle(.wheel)
                 .labelsHidden()
             }
-            .navigationTitle("自定义")
+            .navigationTitle(String(localized: "common.custom", defaultValue: "自定义"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("取消") {
+                    Button(String(localized: "common.cancel", defaultValue: "取消")) {
                         activeSheet = .options
                     }
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("确定") {
+                    Button(String(localized: "common.confirm", defaultValue: "确定")) {
                         value = customDraftValue
                         activeSheet = nil
                     }

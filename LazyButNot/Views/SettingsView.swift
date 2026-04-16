@@ -5,6 +5,9 @@ import UIKit
 struct SettingsView: View {
     @EnvironmentObject private var goalStore: GoalStore
     @EnvironmentObject private var themeStore: ThemeStore
+#if DEBUG
+    @EnvironmentObject private var languageStore: LanguageStore
+#endif
     @State private var notificationStatus: UNAuthorizationStatus = .notDetermined
     @State private var notificationSoundSetting: UNNotificationSetting = .notSupported
     @State private var alarmPermissionState: AlarmPermissionState = .unavailable
@@ -15,16 +18,16 @@ struct SettingsView: View {
 
     var body: some View {
         List {
-            Section("通知") {
+            Section(String(localized: "settings.section.notifications", defaultValue: "通知")) {
                 HStack {
-                    Text("权限状态")
+                    Text(String(localized: "settings.permission_status", defaultValue: "权限状态"))
                     Spacer()
                     Text(notificationStatusText)
                         .foregroundStyle(.secondary)
                 }
 
                 HStack {
-                    Text("通知声音")
+                    Text(String(localized: "settings.notification_sound", defaultValue: "通知声音"))
                     Spacer()
                     Text(notificationSoundText)
                         .foregroundStyle(.secondary)
@@ -32,7 +35,7 @@ struct SettingsView: View {
 
                 if let alarmAuthorizationText {
                     HStack {
-                        Text("闹钟提醒权限")
+                        Text(String(localized: "settings.alarm_permission", defaultValue: "闹钟提醒权限"))
                         Spacer()
                         Text(alarmAuthorizationText)
                             .foregroundStyle(.secondary)
@@ -54,14 +57,14 @@ struct SettingsView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
 
-                Button("重新同步所有提醒") {
+                Button(String(localized: "settings.resync_all_reminders", defaultValue: "重新同步所有提醒")) {
                     Task {
                         await NotificationManager.shared.scheduleAll(goals: goalStore.goals)
                     }
                 }
             }
 
-            Section("外观主题") {
+            Section(String(localized: "settings.section.themes", defaultValue: "外观主题")) {
                 ForEach(AppTheme.allCases) { theme in
                     Button {
                         themeStore.selectedTheme = theme
@@ -80,7 +83,7 @@ struct SettingsView: View {
                                     Text(theme.displayName)
                                         .foregroundStyle(.primary)
                                     if theme.isPremium {
-                                        Text("预留付费")
+                                        Text(String(localized: "settings.premium_reserved", defaultValue: "预留付费"))
                                             .font(.caption2.bold())
                                             .padding(.horizontal, 8)
                                             .padding(.vertical, 3)
@@ -106,27 +109,41 @@ struct SettingsView: View {
                 }
             }
 
-            Section("产品原则") {
-                principleRow("最小行动", "把目标拆到不会失败")
-                principleRow("持续坚持", "状态差也别完全停下")
-                principleRow("主动提醒", "把记得做，变成被触发")
+            Section(String(localized: "settings.section.principles", defaultValue: "产品原则")) {
+                principleRow(String(localized: "settings.principle.minimum_action.title", defaultValue: "最小行动"), String(localized: "settings.principle.minimum_action.subtitle", defaultValue: "把目标拆到不会失败"))
+                principleRow(String(localized: "settings.principle.consistency.title", defaultValue: "持续坚持"), String(localized: "settings.principle.consistency.subtitle", defaultValue: "状态差也别完全停下"))
+                principleRow(String(localized: "settings.principle.active_reminder.title", defaultValue: "主动提醒"), String(localized: "settings.principle.active_reminder.subtitle", defaultValue: "把记得做，变成被触发"))
             }
 
-            Section("关于") {
-                Text("懒人不懒")
+            Section(String(localized: "settings.section.about", defaultValue: "关于")) {
+                Text(String(localized: "app.name", defaultValue: "懒人不懒"))
                     .font(.headline)
-                Text("强调“持续坚持”而不是“高强度自律”的本地打卡 App。")
+                Text(String(localized: "settings.about.description", defaultValue: "强调“持续坚持”而不是“高强度自律”的本地打卡 App。"))
                     .foregroundStyle(.secondary)
             }
+
+#if DEBUG
+            Section(String(localized: "settings.section.debug", defaultValue: "调试")) {
+                NavigationLink {
+                    DebugSettingsView()
+                        .environmentObject(languageStore)
+                } label: {
+                    Label(
+                        String(localized: "settings.debug.localization_entry", defaultValue: "多语言调试"),
+                        systemImage: "globe"
+                    )
+                }
+            }
+#endif
         }
-        .navigationTitle("设置")
+        .navigationTitle(L10n.tabSettings)
         .scrollContentBackground(.hidden)
         .background(themeStore.selectedTheme.palette.screenBackground)
         .task {
             await refreshNotificationStatus()
         }
-        .alert("提醒权限", isPresented: $showingPermissionMessage) {
-            Button("知道了", role: .cancel) { }
+        .alert(String(localized: "settings.permission_alert_title", defaultValue: "提醒权限"), isPresented: $showingPermissionMessage) {
+            Button(String(localized: "common.ok", defaultValue: "知道了"), role: .cancel) { }
         } message: {
             Text(permissionMessage)
         }
@@ -134,12 +151,12 @@ struct SettingsView: View {
 
     private var notificationStatusText: String {
         switch notificationStatus {
-        case .notDetermined: "未决定"
-        case .denied: "已拒绝"
-        case .authorized: "已允许"
-        case .provisional: "临时允许"
-        case .ephemeral: "临时会话"
-        @unknown default: "未知"
+        case .notDetermined: L10n.statusNotDetermined
+        case .denied: L10n.statusDenied
+        case .authorized: L10n.statusAuthorized
+        case .provisional: L10n.statusProvisional
+        case .ephemeral: L10n.statusEphemeral
+        @unknown default: L10n.statusUnknown
         }
     }
 
@@ -178,10 +195,10 @@ struct SettingsView: View {
 
     private var notificationSoundText: String {
         switch notificationSoundSetting {
-        case .enabled: "已开启"
-        case .disabled: "已关闭"
-        case .notSupported: "不支持"
-        @unknown default: "未知"
+        case .enabled: L10n.statusEnabled
+        case .disabled: L10n.statusDisabled
+        case .notSupported: L10n.statusUnsupported
+        @unknown default: L10n.statusUnknown
         }
     }
 
@@ -195,36 +212,36 @@ struct SettingsView: View {
 
     private var permissionButtonTitle: String {
         if allPermissionsGranted {
-            return "权限已允许"
+            return String(localized: "settings.permission_button.granted", defaultValue: "权限已允许")
         }
 
         if notificationStatus == .notDetermined {
-            return "申请通知权限"
+            return String(localized: "settings.permission_button.request_notification", defaultValue: "申请通知权限")
         }
 
         if #available(iOS 26.0, *), notificationStatus == .authorized, alarmPermissionState == .notDetermined {
-            return "申请闹钟权限"
+            return String(localized: "settings.permission_button.request_alarm", defaultValue: "申请闹钟权限")
         }
 
-        return "前往系统设置"
+        return String(localized: "settings.permission_button.open_settings", defaultValue: "前往系统设置")
     }
 
     private var permissionHintText: String {
         if allPermissionsGranted {
-            return "当前设备上的通知权限和闹钟权限都已允许。"
+            return String(localized: "settings.permission_hint.all_granted", defaultValue: "当前设备上的通知权限和闹钟权限都已允许。")
         }
 
         if shouldOpenSystemSettings {
-            return "系统不会重复弹出授权框。请到系统设置里手动开启通知和闹钟权限。"
+            return String(localized: "settings.permission_hint.open_settings", defaultValue: "系统不会重复弹出授权框。请到系统设置里手动开启通知和闹钟权限。")
         }
 
         if #available(iOS 26.0, *), alarmPermissionState == .notDetermined {
             return notificationStatus == .notDetermined
-                ? "首次申请时会先请求通知权限，再请求闹钟权限。"
-                : "当前只差闹钟权限；点按钮后应直接弹出闹钟授权。若仍不弹，首次创建闹钟时系统也可能自动触发授权。"
+                ? String(localized: "settings.permission_hint.first_request_both", defaultValue: "首次申请时会先请求通知权限，再请求闹钟权限。")
+                : String(localized: "settings.permission_hint.only_alarm_missing", defaultValue: "当前只差闹钟权限；点按钮后应直接弹出闹钟授权。若仍不弹，首次创建闹钟时系统也可能自动触发授权。")
         }
 
-        return "首次申请时会弹出系统授权框。"
+        return String(localized: "settings.permission_hint.first_request_single", defaultValue: "首次申请时会弹出系统授权框。")
     }
 
     private var shouldOpenSystemSettings: Bool {
@@ -245,30 +262,30 @@ struct SettingsView: View {
 
     private func permissionResultMessage(notificationGranted: Bool) -> String {
         if notificationStatus == .denied {
-            return "通知权限已被拒绝。请到系统设置中手动开启。"
+            return String(localized: "settings.permission_result.notification_denied", defaultValue: "通知权限已被拒绝。请到系统设置中手动开启。")
         }
 
         if #available(iOS 26.0, *), alarmPermissionState == .denied {
-            return "闹钟权限已被拒绝。请到系统设置中手动开启。"
+            return String(localized: "settings.permission_result.alarm_denied", defaultValue: "闹钟权限已被拒绝。请到系统设置中手动开启。")
         }
 
         if allPermissionsGranted {
-            return "权限已更新，闹钟式提醒现在可以使用。"
+            return String(localized: "settings.permission_result.all_granted", defaultValue: "权限已更新，闹钟式提醒现在可以使用。")
         }
 
         if notificationGranted {
             if #available(iOS 26.0, *), alarmPermissionState == .notDetermined {
-                return "通知权限已允许，但闹钟权限仍是“未决定”。你现在可以直接新建一个开启“闹钟式提醒”的目标，首次真正创建闹钟时系统也可能自动弹出授权。"
+                return String(localized: "settings.permission_result.notification_granted_alarm_pending", defaultValue: "通知权限已允许，但闹钟权限仍是“未决定”。你现在可以直接新建一个开启“闹钟式提醒”的目标，首次真正创建闹钟时系统也可能自动弹出授权。")
             }
-            return "通知权限已更新。"
+            return String(localized: "settings.permission_result.notification_updated", defaultValue: "通知权限已更新。")
         }
 
-        return "系统没有授予新的权限。若之前点过“不允许”，需要到系统设置中手动开启。"
+        return String(localized: "settings.permission_result.no_new_permission", defaultValue: "系统没有授予新的权限。若之前点过“不允许”，需要到系统设置中手动开启。")
     }
 
     private func openSystemSettings() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else {
-            permissionMessage = "无法打开系统设置，请手动前往“设置 > 懒人不懒”。"
+            permissionMessage = String(localized: "settings.permission_result.cannot_open_settings", defaultValue: "无法打开系统设置，请手动前往“设置 > 懒人不懒”。")
             showingPermissionMessage = true
             return
         }

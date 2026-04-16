@@ -63,6 +63,9 @@
 - 目标重新调度时，旧 AlarmKit entries 必须被取消
 - AlarmKit 日志中的 `dateCount`、`offset`、`alarmUpdates count` 应与当前窗口策略一致
 
+补充要求：
+- 若本次修改涉及日志字段、数量计算或调度窗口，必须对照 [log-review-checklist.md](/Users/kl/Desktop/kunlunLibray/flutter/懒人不懒/docs/log-review-checklist.md) 重新判读一轮日志
+
 ## 7. 数量与窗口
 
 - 当前 `rollingScheduleHorizonDays` 应保持和文档一致

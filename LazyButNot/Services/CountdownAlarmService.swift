@@ -61,7 +61,7 @@ final class CountdownAlarmService {
         let id = UUID()
         let metadata = CountdownAlarmMetadata(
             alarmID: id,
-            title: title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "倒计时提醒" : title,
+            title: title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? String(localized: "countdown.default_title", defaultValue: "倒计时提醒") : title,
             context: metadataContext(from: context)
         )
         let countdownDuration = Alarm.CountdownDuration(
@@ -236,12 +236,12 @@ private extension CountdownAlarmService {
         repeatEnabled: Bool
     ) -> CountdownConfiguration {
         let stopButton = AlarmButton(
-            text: "关闭",
+            text: LocalizedStringResource("countdown.action.close", defaultValue: "关闭"),
             textColor: .white,
             systemImageName: "stop.circle.fill"
         )
         let secondaryButton = repeatEnabled ? AlarmButton(
-            text: "重复",
+            text: LocalizedStringResource("countdown.action.repeat", defaultValue: "重复"),
             textColor: .white,
             systemImageName: "repeat.circle.fill"
         ) : nil
@@ -263,7 +263,7 @@ private extension CountdownAlarmService {
         }
 
         let pauseButton = AlarmButton(
-            text: "暂停",
+            text: LocalizedStringResource("countdown.action.pause", defaultValue: "暂停"),
             textColor: .white,
             systemImageName: "pause.fill"
         )
@@ -273,7 +273,7 @@ private extension CountdownAlarmService {
         )
 
         let resumeButton = AlarmButton(
-            text: "继续",
+            text: LocalizedStringResource("countdown.action.resume", defaultValue: "继续"),
             textColor: .white,
             systemImageName: "play.fill"
         )

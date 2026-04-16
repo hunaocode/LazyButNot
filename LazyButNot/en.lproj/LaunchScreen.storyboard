@@ -22,7 +22,7 @@
                                     <constraint firstAttribute="height" constant="176" id="SnX-Vm-IWl"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="懒人不懒" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbT-D7-sbc">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Lazy But Not" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbT-D7-sbc">
                                 <rect key="frame" x="86.5" y="544.5" width="220" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="220" id="A0k-yF-HhQ"/>
@@ -31,10 +31,10 @@
                                 <color key="textColor" red="0.9997263551" green="0.9997263551" blue="0.9997263551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="你只是不会坚持" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wna-bF-zL2">
-                                <rect key="frame" x="56.5" y="590.5" width="280" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="You just need consistency" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="YES" minimumScaleFactor="0.8" translatesAutoresizingMaskIntoConstraints="NO" id="Wna-bF-zL2">
+                                <rect key="frame" x="34" y="590.5" width="325" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="WmP-m2-s6P"/>
+                                    <constraint firstAttribute="width" constant="325" id="WmP-m2-s6P"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <color key="textColor" red="0.9997263551" green="0.9997263551" blue="0.9997263551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

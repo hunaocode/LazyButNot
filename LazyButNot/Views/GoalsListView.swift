@@ -10,8 +10,8 @@ struct GoalsListView: View {
         List {
             if goalStore.goals.isEmpty {
                 EmptyStateView(
-                    title: "还没有目标",
-                    subtitle: "把大目标拆成最小动作，再交给提醒系统去盯。",
+                    title: String(localized: "goals.empty.title", defaultValue: "还没有目标"),
+                    subtitle: String(localized: "goals.empty.subtitle", defaultValue: "把大目标拆成最小动作，再交给提醒系统去盯。"),
                     systemImage: "list.bullet.clipboard"
                 )
                 .listRowInsets(EdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16))
@@ -35,7 +35,7 @@ struct GoalsListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(themeStore.selectedTheme.palette.screenBackground)
-        .navigationTitle("目标")
+        .navigationTitle(String(localized: "goals.title", defaultValue: "目标"))
         .navigationDestination(item: $selectedGoalID) { goalID in
             GoalDetailView(goalID: goalID)
         }
@@ -84,7 +84,7 @@ struct GoalsListView: View {
                             .font(.headline)
                             .foregroundStyle(palette.primaryText)
                         if goal.isPaused {
-                            statusTag("暂停")
+                            statusTag(String(localized: "status.paused_short", defaultValue: "暂停"))
                         }
                     }
 
@@ -98,12 +98,12 @@ struct GoalsListView: View {
             }
 
             HStack(spacing: 10) {
-                infoPill(title: "分类", value: goal.category.rawValue)
-                infoPill(title: "提醒", value: String(format: "%02d:%02d", goal.reminderHour, goal.reminderMinute))
+                infoPill(title: String(localized: "goals.info.category", defaultValue: "分类"), value: goal.category.localizedTitle)
+                infoPill(title: String(localized: "goals.info.reminder", defaultValue: "提醒"), value: L10n.timeHM(hour: goal.reminderHour, minute: goal.reminderMinute))
                 if goal.periodType == .weeklyCount {
-                    infoPill(title: "本周", value: "\(weekCount)/\(goal.weeklyTargetCount)")
+                    infoPill(title: String(localized: "goals.info.this_week", defaultValue: "本周"), value: L10n.weeklyCompletedMetric(weekCount, goal.weeklyTargetCount))
                 } else {
-                    infoPill(title: "坚持", value: "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天")
+                    infoPill(title: String(localized: "goals.info.consistency", defaultValue: "坚持"), value: L10n.dayCount(GoalStore.streak(for: goal, allowMinimumCompletion: true)))
                 }
             }
         }

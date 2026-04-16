@@ -13,13 +13,13 @@ struct GoalFormView: View {
     }
 
     private let weekdayOptions: [(Int, String)] = [
-        (1, "周日"),
-        (2, "周一"),
-        (3, "周二"),
-        (4, "周三"),
-        (5, "周四"),
-        (6, "周五"),
-        (7, "周六"),
+        (1, String(localized: "weekday.sun", defaultValue: "周日")),
+        (2, String(localized: "weekday.mon", defaultValue: "周一")),
+        (3, String(localized: "weekday.tue", defaultValue: "周二")),
+        (4, String(localized: "weekday.wed", defaultValue: "周三")),
+        (5, String(localized: "weekday.thu", defaultValue: "周四")),
+        (6, String(localized: "weekday.fri", defaultValue: "周五")),
+        (7, String(localized: "weekday.sat", defaultValue: "周六")),
     ]
 
     private let offsetOptions: [Int] = [60, 30, 15, 10, 5]
@@ -30,27 +30,27 @@ struct GoalFormView: View {
 
     var body: some View {
         Form {
-            Section("基本信息") {
-                TextField("目标名称", text: $viewModel.name)
-                TextField("最小完成标准，例如：做 1 题", text: $viewModel.minimumAction)
-                TextField("目标说明", text: $viewModel.descriptionText, axis: .vertical)
+            Section(String(localized: "goal_form.section.basic_info", defaultValue: "基本信息")) {
+                TextField(String(localized: "goal_form.name", defaultValue: "目标名称"), text: $viewModel.name)
+                TextField(String(localized: "goal_form.minimum_action_placeholder", defaultValue: "最小完成标准，例如：做 1 题"), text: $viewModel.minimumAction)
+                TextField(String(localized: "goal_form.description", defaultValue: "目标说明"), text: $viewModel.descriptionText, axis: .vertical)
 
-                Picker("分类", selection: $viewModel.category) {
+                Picker(String(localized: "goal_form.category", defaultValue: "分类"), selection: $viewModel.category) {
                     ForEach(GoalCategory.allCases) { category in
-                        Text(category.rawValue).tag(category)
+                        Text(category.localizedTitle).tag(category)
                     }
                 }
             }
 
-            Section("周期") {
-                Picker("周期类型", selection: $viewModel.periodType) {
+            Section(String(localized: "goal_form.section.schedule", defaultValue: "周期")) {
+                Picker(String(localized: "goal_form.period_type", defaultValue: "周期类型"), selection: $viewModel.periodType) {
                     ForEach(GoalPeriodType.allCases) { periodType in
-                        Text(periodType.rawValue).tag(periodType)
+                        Text(periodType.localizedTitle).tag(periodType)
                     }
                 }
 
                 if viewModel.periodType == .weeklyCount {
-                    Stepper("每周 \(viewModel.weeklyTargetCount) 次", value: $viewModel.weeklyTargetCount, in: 1...14)
+                    Stepper(L10n.weeklyTargetCount(viewModel.weeklyTargetCount), value: $viewModel.weeklyTargetCount, in: 1...14)
                 }
 
                 if viewModel.periodType == .weeklyFixedDays {
@@ -58,11 +58,11 @@ struct GoalFormView: View {
                 }
             }
 
-            Section("提醒") {
-                DatePicker("默认提醒时间", selection: $viewModel.reminderDate, displayedComponents: .hourAndMinute)
-                DatePicker("截止时间", selection: $viewModel.deadlineDate, displayedComponents: .hourAndMinute)
+            Section(String(localized: "goal_form.section.reminders", defaultValue: "提醒")) {
+                DatePicker(String(localized: "goal_form.default_reminder_time", defaultValue: "默认提醒时间"), selection: $viewModel.reminderDate, displayedComponents: .hourAndMinute)
+                DatePicker(String(localized: "goal_form.deadline_time", defaultValue: "截止时间"), selection: $viewModel.deadlineDate, displayedComponents: .hourAndMinute)
 
-                Toggle("开启监督提醒", isOn: $viewModel.supervisionEnabled)
+                Toggle(String(localized: "goal_form.enable_supervision", defaultValue: "开启监督提醒"), isOn: $viewModel.supervisionEnabled)
                     .onChange(of: viewModel.supervisionEnabled) { _, enabled in
                         if enabled {
                             normalizeRingEnabledIfNeeded()
@@ -80,22 +80,22 @@ struct GoalFormView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Toggle("暂停目标", isOn: $viewModel.isPaused)
+                Toggle(String(localized: "goal_form.pause_goal", defaultValue: "暂停目标"), isOn: $viewModel.isPaused)
             }
         }
-        .navigationTitle(goal == nil ? "新建目标" : "编辑目标")
+        .navigationTitle(goal == nil ? String(localized: "goal_form.create_title", defaultValue: "新建目标") : String(localized: "goal_form.edit_title", defaultValue: "编辑目标"))
         .task {
             normalizeRingEnabledIfNeeded()
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button("取消") {
+                Button(String(localized: "common.cancel", defaultValue: "取消")) {
                     dismiss()
                 }
             }
 
             ToolbarItem(placement: .topBarTrailing) {
-                Button("保存") {
+                Button(String(localized: "common.save", defaultValue: "保存")) {
                     save()
                 }
                 .disabled(!viewModel.canSave)
@@ -106,12 +106,12 @@ struct GoalFormView: View {
         }
         .alert(alertTitle, isPresented: $showingAlert) {
             if showSettingsAction {
-                Button("取消", role: .cancel) { }
-                Button("确定") {
+                Button(String(localized: "common.cancel", defaultValue: "取消"), role: .cancel) { }
+                Button(String(localized: "common.confirm", defaultValue: "确定")) {
                     openAppSettings()
                 }
             } else {
-                Button("知道了", role: .cancel) { }
+                Button(String(localized: "common.ok", defaultValue: "知道了"), role: .cancel) { }
             }
         } message: {
             Text(alertMessage)
@@ -120,7 +120,7 @@ struct GoalFormView: View {
 
     private var weekdayPicker: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("固定日")
+            Text(String(localized: "goal_form.fixed_days", defaultValue: "固定日"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
@@ -151,7 +151,7 @@ struct GoalFormView: View {
 
     private var offsetPicker: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("监督提前量")
+            Text(String(localized: "goal_form.supervision_offsets", defaultValue: "监督提前量"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
@@ -165,7 +165,7 @@ struct GoalFormView: View {
                             viewModel.supervisionOffsets.insert(offset)
                         }
                     } label: {
-                        Text("\(offset) 分钟")
+                        Text(L10n.minuteCount(offset))
                             .font(.caption.bold())
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
@@ -178,12 +178,12 @@ struct GoalFormView: View {
             }
 
             MinuteSelectionField(
-                title: "自定义",
+                title: String(localized: "common.custom", defaultValue: "自定义"),
                 value: $viewModel.customSupervisionOffset,
                 presetOptions: offsetOptions,
                 customRange: Array(1...180),
                 highlightsCustomSelection: true,
-                placeholderText: "未设置",
+                placeholderText: String(localized: "common.not_set", defaultValue: "未设置"),
                 allowsClearingCustomSelection: true,
                 isSelectionActive: hasCustomSupervisionOffset,
                 onClearSelection: clearCustomSupervisionOffset
@@ -194,16 +194,16 @@ struct GoalFormView: View {
 
     private var alarmToggleTitle: String {
         if #available(iOS 26.0, *) {
-            return "开启闹钟式提醒"
+            return String(localized: "goal_form.enable_alarm_style_reminder", defaultValue: "开启闹钟式提醒")
         }
-        return "开启提醒声音"
+        return String(localized: "goal_form.enable_reminder_sound", defaultValue: "开启提醒声音")
     }
 
     private var alarmHintText: String {
         if #available(iOS 26.0, *) {
-            return "开启后，到截止前会像系统闹钟一样提醒你；如果没开权限，需要先到系统设置里允许。"
+            return String(localized: "goal_form.alarm_hint_supported", defaultValue: "开启后，到截止前会像系统闹钟一样提醒你；如果没开权限，需要先到系统设置里允许。")
         }
-        return "当前系统版本不支持闹钟式提醒，只能使用普通通知。"
+        return String(localized: "goal_form.alarm_hint_unsupported", defaultValue: "当前系统版本不支持闹钟式提醒，只能使用普通通知。")
     }
 
     private var ringToggleBinding: Binding<Bool> {
@@ -276,8 +276,8 @@ struct GoalFormView: View {
         guard #available(iOS 26.0, *) else {
             viewModel.ringEnabled = false
             presentAlert(
-                title: "当前系统不支持",
-                message: "闹钟式提醒需要 iOS 26 及以上版本，升级系统后才可以使用。"
+                title: String(localized: "common.unsupported_system", defaultValue: "当前系统不支持"),
+                message: String(localized: "goal_form.alarm_requires_ios26", defaultValue: "闹钟式提醒需要 iOS 26 及以上版本，升级系统后才可以使用。")
             )
             return
         }
@@ -288,8 +288,8 @@ struct GoalFormView: View {
         case .denied:
             viewModel.ringEnabled = false
             presentSettingsAlert(
-                title: "闹钟权限未开启",
-                message: "请前往系统设置，为“懒人不懒”打开闹钟权限后再使用闹钟式提醒。"
+                title: String(localized: "goal_form.alarm_permission_disabled", defaultValue: "闹钟权限未开启"),
+                message: String(localized: "goal_form.alarm_permission_settings_message", defaultValue: "请前往系统设置，为“懒人不懒”打开闹钟权限后再使用闹钟式提醒。")
             )
         case .notDetermined:
             Task { @MainActor in
@@ -299,16 +299,16 @@ struct GoalFormView: View {
                 } else {
                     viewModel.ringEnabled = false
                     presentSettingsAlert(
-                        title: "闹钟权限未开启",
-                        message: "未开启闹钟权限时，无法使用闹钟式提醒。请前往系统设置打开权限。"
+                        title: String(localized: "goal_form.alarm_permission_disabled", defaultValue: "闹钟权限未开启"),
+                        message: String(localized: "goal_form.alarm_permission_required_message", defaultValue: "未开启闹钟权限时，无法使用闹钟式提醒。请前往系统设置打开权限。")
                     )
                 }
             }
         case .unavailable, .unknown:
             viewModel.ringEnabled = false
             presentAlert(
-                title: "当前系统不支持",
-                message: "当前设备暂时无法使用闹钟式提醒。"
+                title: String(localized: "common.unsupported_system", defaultValue: "当前系统不支持"),
+                message: String(localized: "goal_form.alarm_unavailable_message", defaultValue: "当前设备暂时无法使用闹钟式提醒。")
             )
         }
     }

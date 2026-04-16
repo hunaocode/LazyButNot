@@ -27,13 +27,13 @@ struct HomeDashboardView: View {
 
                 if pendingGoals.isEmpty && completedGoals.isEmpty {
                     EmptyStateView(
-                        title: "今天还没有目标",
-                        subtitle: "先建立一个最小可执行目标",
+                        title: String(localized: "home.empty_today.title", defaultValue: "今天还没有目标"),
+                        subtitle: String(localized: "home.empty_today.subtitle", defaultValue: "先建立一个最小可执行目标"),
                         systemImage: "flag.checkered.2.crossed"
                     )
                 } else {
                     if !pendingGoals.isEmpty {
-                        sectionTitle("待完成")
+                        sectionTitle(String(localized: "home.section.pending", defaultValue: "待完成"))
 
                         ForEach(pendingGoals) { goal in
                             GoalCardView(
@@ -47,7 +47,7 @@ struct HomeDashboardView: View {
                     }
 
                     if !completedGoals.isEmpty {
-                        sectionTitle("已完成")
+                        sectionTitle(String(localized: "home.section.completed", defaultValue: "已完成"))
 
                         ForEach(completedGoals) { goal in
                             GoalCardView(
@@ -64,7 +64,7 @@ struct HomeDashboardView: View {
             .padding()
         }
         .background(themeStore.selectedTheme.palette.screenBackground)
-        .navigationTitle("今天")
+        .navigationTitle(String(localized: "home.title", defaultValue: "今天"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -93,9 +93,9 @@ struct HomeDashboardView: View {
         return VStack(alignment: .leading, spacing: 18) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("持续坚持，比爆发更重要")
+                    Text(String(localized: "home.summary.headline", defaultValue: "持续坚持，比爆发更重要"))
                         .font(.title3.bold())
-                    Text("今天完成 \(completed) / \(max(total, 1)) 个目标")
+                    Text(L10n.completedSummary(completed, max(total, 1)))
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -103,9 +103,9 @@ struct HomeDashboardView: View {
             }
 
             HStack(spacing: 10) {
-                statChip(title: "待完成", value: "\(pendingGoals.count)", color: .blue)
-                statChip(title: "已完成", value: "\(completedGoals.count)", color: .green)
-                statChip(title: "总目标", value: "\(goalStore.goals.count)", color: .orange)
+                statChip(title: String(localized: "home.section.pending", defaultValue: "待完成"), value: "\(pendingGoals.count)", color: .blue)
+                statChip(title: String(localized: "home.section.completed", defaultValue: "已完成"), value: "\(completedGoals.count)", color: .green)
+                statChip(title: String(localized: "home.total_goals", defaultValue: "总目标"), value: "\(goalStore.goals.count)", color: .orange)
             }
 
             Button {
@@ -115,9 +115,9 @@ struct HomeDashboardView: View {
                     Image(systemName: "timer")
                         .font(.headline)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("开启专注模式")
+                        Text(String(localized: "home.focus_mode.title", defaultValue: "开启专注模式"))
                             .font(.headline)
-                        Text("支持锁屏、灵动岛与待机显示")
+                        Text(String(localized: "home.focus_mode.subtitle", defaultValue: "支持锁屏、灵动岛与待机显示"))
                             .font(.caption)
                             .foregroundStyle(.white.opacity(0.86))
                     }

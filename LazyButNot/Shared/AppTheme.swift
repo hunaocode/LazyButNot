@@ -25,17 +25,21 @@ enum AppTheme: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .sunrise: "暖阳橙"
-        case .ocean: "海岸蓝"
-        case .forest: "苔原绿"
+        case .sunrise:
+            String(localized: "theme.sunrise.name", defaultValue: "暖阳橙")
+        case .ocean:
+            String(localized: "theme.ocean.name", defaultValue: "海岸蓝")
+        case .forest:
+            String(localized: "theme.forest.name", defaultValue: "苔原绿")
         }
     }
 
     var tagline: String {
         switch self {
-        case .sunrise: "基础版"
-        case .ocean: "进阶主题"
-        case .forest: "进阶主题"
+        case .sunrise:
+            String(localized: "theme.tagline.base", defaultValue: "基础版")
+        case .ocean, .forest:
+            String(localized: "theme.tagline.premium", defaultValue: "进阶主题")
         }
     }
 

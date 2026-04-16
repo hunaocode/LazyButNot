@@ -108,13 +108,13 @@ final class NotificationManager: NSObject {
         case .unavailable:
             return nil
         case .notDetermined:
-            return "未决定"
+            return L10n.statusNotDetermined
         case .denied:
-            return "已拒绝"
+            return L10n.statusDenied
         case .authorized:
-            return "已允许"
+            return L10n.statusAuthorized
         case .unknown:
-            return "未知"
+            return L10n.statusUnknown
         }
     }
 
@@ -206,8 +206,8 @@ final class NotificationManager: NSObject {
 
     private func scheduleReminder(for goal: Goal, weekday: Int?) async {
         let content = UNMutableNotificationContent()
-        content.title = "该打卡了"
-        content.body = "现在开始「\(goal.name)」，先做最小动作也算完成。"
+        content.title = String(localized: "notification.reminder.title", defaultValue: "该打卡了")
+        content.body = L10n.reminderBody(goalName: goal.name)
         content.sound = .default
 
         var components = DateComponents()
@@ -230,8 +230,8 @@ final class NotificationManager: NSObject {
         guard fireDate > .now else { return }
 
         let content = UNMutableNotificationContent()
-        content.title = "该打卡了"
-        content.body = "现在开始「\(goal.name)」，先做最小动作也算完成。"
+        content.title = String(localized: "notification.reminder.title", defaultValue: "该打卡了")
+        content.body = L10n.reminderBody(goalName: goal.name)
         content.sound = .default
 
         let trigger = UNCalendarNotificationTrigger(
@@ -249,8 +249,8 @@ final class NotificationManager: NSObject {
 
     private func scheduleSupervision(for goal: Goal, offset: Int, weekday: Int?) async {
         let content = UNMutableNotificationContent()
-        content.title = "临近截止"
-        content.body = "「\(goal.name)」将在 \(offset) 分钟后截止，别忘记完成哦。"
+        content.title = String(localized: "notification.supervision.title", defaultValue: "临近截止")
+        content.body = L10n.supervisionBody(goalName: goal.name, offset: offset)
         content.sound = goal.ringEnabled ? .default : nil
 
         let (fireMinutes, dayShift) = supervisionFireTimeComponents(deadlineHour: goal.deadlineHour, deadlineMinute: goal.deadlineMinute, offset: offset)
@@ -275,8 +275,8 @@ final class NotificationManager: NSObject {
         guard fireDate > .now else { return }
 
         let content = UNMutableNotificationContent()
-        content.title = "临近截止"
-        content.body = "「\(goal.name)」将在 \(offset) 分钟后截止，别忘记完成哦。"
+        content.title = String(localized: "notification.supervision.title", defaultValue: "临近截止")
+        content.body = L10n.supervisionBody(goalName: goal.name, offset: offset)
         content.sound = goal.ringEnabled ? .default : nil
 
         let trigger = UNCalendarNotificationTrigger(
@@ -492,7 +492,7 @@ extension NotificationManager {
         for offset in goal.supervisionOffsets {
             let schedule = alarmSchedule(for: goal, offset: offset, recurrence: recurrence)
             let alarmID = alarmID(for: goal, offset: offset)
-            let alert = makeGoalAlarmAlert(title: LocalizedStringResource(stringLiteral: "「\(goal.name)」即将截止"))
+            let alert = makeGoalAlarmAlert(title: LocalizedStringResource(stringLiteral: L10n.deadlineAlertTitle(goalName: goal.name)))
             let presentation = AlarmPresentation(alert: alert)
             let attributes = AlarmAttributes(
                 presentation: presentation,
@@ -609,7 +609,7 @@ extension NotificationManager {
                 guard fireDate > .now else { continue }
 
                 let alarmID = alarmID(for: goal, offset: offset, date: date)
-                let alert = makeGoalAlarmAlert(title: LocalizedStringResource(stringLiteral: "「\(goal.name)」即将截止"))
+                let alert = makeGoalAlarmAlert(title: LocalizedStringResource(stringLiteral: L10n.deadlineAlertTitle(goalName: goal.name)))
                 let presentation = AlarmPresentation(alert: alert)
                 let attributes = AlarmAttributes(
                     presentation: presentation,
@@ -679,7 +679,7 @@ extension NotificationManager {
 
     private func makeGoalAlarmAlert(title: LocalizedStringResource) -> AlarmPresentation.Alert {
         let stopButton = AlarmButton(
-            text: "停止",
+            text: LocalizedStringResource("notification.action.stop", defaultValue: "停止"),
             textColor: .white,
             systemImageName: "stop.fill"
         )

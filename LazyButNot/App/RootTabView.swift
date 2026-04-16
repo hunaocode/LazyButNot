@@ -28,7 +28,7 @@ struct RootTabView: View {
                     }
             }
             .tabItem {
-                Label("今日", systemImage: "sun.max.fill")
+                Label(L10n.tabHome, systemImage: "sun.max.fill")
             }
             .tag(RootTab.home)
 
@@ -36,7 +36,7 @@ struct RootTabView: View {
                 GoalsListView()
             }
             .tabItem {
-                Label("目标", systemImage: "checklist")
+                Label(L10n.tabGoals, systemImage: "checklist")
             }
             .tag(RootTab.goals)
 
@@ -44,7 +44,7 @@ struct RootTabView: View {
                 StatsView()
             }
             .tabItem {
-                Label("统计", systemImage: "chart.bar.fill")
+                Label(L10n.tabStats, systemImage: "chart.bar.fill")
             }
             .tag(RootTab.stats)
 
@@ -52,7 +52,7 @@ struct RootTabView: View {
                 SettingsView()
             }
             .tabItem {
-                Label("设置", systemImage: "gearshape.fill")
+                Label(L10n.tabSettings, systemImage: "gearshape.fill")
             }
             .tag(RootTab.settings)
         }

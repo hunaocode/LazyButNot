@@ -4,7 +4,7 @@ struct CountdownAlarmSheet: View {
     @EnvironmentObject private var router: AppRouter
     @Environment(\.dismiss) private var dismiss
 
-    @State private var title = "专注倒计时"
+    @State private var title = L10n.countdownDefaultTitle
     @State private var durationMinutes = 25
     @State private var category: GoalCategory = .study
     @State private var repeatEnabled = true
@@ -22,30 +22,30 @@ struct CountdownAlarmSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("倒计时") {
-                    TextField("提醒标题", text: $title)
+                Section(String(localized: "countdown.sheet.section.countdown", defaultValue: "倒计时")) {
+                    TextField(String(localized: "countdown.sheet.title_placeholder", defaultValue: "提醒标题"), text: $title)
 
-                    Picker("场景", selection: $category) {
+                    Picker(String(localized: "countdown.sheet.context", defaultValue: "场景"), selection: $category) {
                         ForEach(GoalCategory.allCases) { item in
-                            Label(item.rawValue, systemImage: item.iconName)
+                            Label(item.localizedTitle, systemImage: item.iconName)
                                 .tag(item)
                         }
                     }
 
                     MinuteSelectionField(
-                        title: "倒计时时长",
+                        title: String(localized: "countdown.sheet.duration", defaultValue: "倒计时时长"),
                         value: $durationMinutes,
                         presetOptions: durationOptions,
                         customRange: customDurationRange
                     )
                 }
 
-                Section("触发后") {
-                    Toggle("允许再次倒计时", isOn: $repeatEnabled)
+                Section(String(localized: "countdown.sheet.section.after_trigger", defaultValue: "触发后")) {
+                    Toggle(String(localized: "countdown.sheet.repeat_enabled", defaultValue: "允许再次倒计时"), isOn: $repeatEnabled)
 
                     if repeatEnabled {
                         MinuteSelectionField(
-                            title: "再次提醒间隔",
+                            title: String(localized: "countdown.sheet.repeat_interval", defaultValue: "再次提醒间隔"),
                             value: $repeatMinutes,
                             presetOptions: repeatOptions,
                             customRange: repeatMinuteRange
@@ -53,29 +53,29 @@ struct CountdownAlarmSheet: View {
                     }
                 }
 
-                Section("说明") {
-                    Text("开始后，系统会帮你启动一个带持续提醒的专注倒计时；剩余时间也会同步显示在锁屏和灵动岛上;您可随时右滑清除该倒计时。")
+                Section(String(localized: "common.description", defaultValue: "说明")) {
+                    Text(String(localized: "countdown.sheet.description", defaultValue: "开始后，系统会帮你启动一个带持续提醒的专注倒计时；剩余时间也会同步显示在锁屏和灵动岛上;您可随时右滑清除该倒计时。"))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
             }
-            .navigationTitle("倒计时闹钟")
+            .navigationTitle(String(localized: "countdown.alarm_title", defaultValue: "倒计时闹钟"))
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("取消") {
+                    Button(String(localized: "common.cancel", defaultValue: "取消")) {
                         dismiss()
                     }
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(isSubmitting ? "创建中..." : "开始") {
+                    Button(isSubmitting ? String(localized: "common.creating", defaultValue: "创建中...") : String(localized: "common.start", defaultValue: "开始")) {
                         startCountdown()
                     }
                     .disabled(isSubmitting)
                 }
             }
             .alert(alertTitle, isPresented: $showingAlert) {
-                Button("知道了", role: .cancel) { }
+                Button(String(localized: "common.ok", defaultValue: "知道了"), role: .cancel) { }
             } message: {
                 Text(alertMessage)
             }
@@ -103,18 +103,18 @@ struct CountdownAlarmSheet: View {
                 dismiss()
             case .unavailable:
                 presentAlert(
-                    title: "当前系统不支持",
-                    message: "倒计时闹钟需要 iOS 26 及以上版本。"
+                    title: String(localized: "common.unsupported_system", defaultValue: "当前系统不支持"),
+                    message: String(localized: "countdown.sheet.unsupported_message", defaultValue: "倒计时闹钟需要 iOS 26 及以上版本。")
                 )
             case .authorizationDenied:
                 presentAlert(
-                    title: "无法创建闹钟",
-                    message: "请先在系统中允许本 App 使用闹钟权限。"
+                    title: String(localized: "countdown.sheet.create_alarm_failed", defaultValue: "无法创建闹钟"),
+                    message: String(localized: "countdown.sheet.authorization_denied_message", defaultValue: "请先在系统中允许本 App 使用闹钟权限。")
                 )
             case .failed:
                 presentAlert(
-                    title: "创建失败",
-                    message: "系统没有成功创建倒计时闹钟，请稍后再试。"
+                    title: String(localized: "common.creation_failed", defaultValue: "创建失败"),
+                    message: String(localized: "countdown.sheet.creation_failed_message", defaultValue: "系统没有成功创建倒计时闹钟，请稍后再试。")
                 )
             }
         }

@@ -38,6 +38,12 @@
 若任务涉及产品口径或验收范围，还必须阅读：
 - [docs/PRODUCT_REQUIREMENTS.md](/Users/kl/Desktop/kunlunLibray/flutter/懒人不懒/docs/PRODUCT_REQUIREMENTS.md)
 
+若任务涉及用户可见文案、多语言、通知文案、Widget 文案，还必须阅读：
+- [docs/localization-workflow.md](/Users/kl/Desktop/kunlunLibray/flutter/懒人不懒/docs/localization-workflow.md)
+
+若任务涉及提醒日志判读、数量异常、重复铺设、漏删漏铺分析，还必须阅读：
+- [docs/log-review-checklist.md](/Users/kl/Desktop/kunlunLibray/flutter/懒人不懒/docs/log-review-checklist.md)
+
 ## 4. 提醒系统的默认硬约束
 
 除非任务明确要求修改，否则以下规则默认不可变：
@@ -90,6 +96,27 @@
 - 打卡完成后的提醒变化
 - 前后台调度策略
 
+### `走日志判读流程`
+
+含义：
+- 先阅读 `AGENTS.md`
+- 再阅读：
+- `docs/reminder-engine.md`
+- `docs/log-review-checklist.md`
+- 先不要改代码
+- 先输出：
+- 调度模式
+- 删除是否正常
+- 铺设数量是否符合预期
+- 今天的提醒是否合理
+- 是否发现异常
+- 最可能根因
+
+适用场景：
+- 提醒日志分析
+- `alarmUpdates count` 异常
+- 重复铺设 / 漏删 / 漏铺判断
+
 ### `走审慎流程`
 
 含义：
@@ -104,6 +131,24 @@
 - 一般代码改动
 - 可能影响多个模块的修复
 - 需要避免回归的功能修改
+
+### `走本地化流程`
+
+含义：
+- 先阅读 `AGENTS.md`
+- 再阅读：
+- `docs/localization-workflow.md`
+- 先完成功能改动
+- 再执行：
+- `python3 scripts/i18n_sync_catalog.py`
+- `python3 scripts/i18n_scan.py`
+- `python3 scripts/i18n_check.py`
+- 若涉及 UI / 通知 / Widget，再补一次构建验证
+
+适用场景：
+- 新增或修改用户可见文案
+- 页面、弹层、按钮、主题名变化
+- 通知 / AlarmKit / Live Activity / Widget 文案变化
 
 ## 6. Code Review 要求
 

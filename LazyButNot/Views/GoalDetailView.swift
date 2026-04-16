@@ -27,55 +27,55 @@ struct GoalDetailView: View {
 
                     HStack(spacing: 12) {
                         if goal.periodType == .weeklyCount {
-                            metricCard("本周完成", "\(weekCount)/\(goal.weeklyTargetCount)", color: .green)
-                            metricCard("本周状态", weeklyRemaining == 0 ? "已达标" : "还差 \(weeklyRemaining) 次", color: .orange)
+                            metricCard(L10n.statsWeeklyCompleted, L10n.weeklyCompletedMetric(weekCount, goal.weeklyTargetCount), color: .green)
+                            metricCard(L10n.statsWeeklyStatus, weeklyRemaining == 0 ? String(localized: "stats.weekly_status.completed", defaultValue: "已达标") : L10n.weeklyRemaining(weeklyRemaining), color: .orange)
                         } else {
-                            metricCard("连续完成", "\(GoalStore.streak(for: goal, allowMinimumCompletion: false)) 天", color: .green)
-                            metricCard("持续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天", color: .orange)
+                            metricCard(L10n.statsCompletionStreak, L10n.dayCount(GoalStore.streak(for: goal, allowMinimumCompletion: false)), color: .green)
+                            metricCard(L10n.statsConsistencyStreak, L10n.dayCount(GoalStore.streak(for: goal, allowMinimumCompletion: true)), color: .orange)
                         }
                     }
                 }
                 .padding(.vertical, 8)
             }
 
-            Section("规则") {
-                detailRow("最小动作", goal.minimumAction)
-                detailRow("周期", goal.periodType.rawValue)
+            Section(String(localized: "goal_detail.section.rules", defaultValue: "规则")) {
+                detailRow(String(localized: "goal.minimum_action", defaultValue: "最小动作"), goal.minimumAction)
+                detailRow(String(localized: "goal.schedule", defaultValue: "周期"), goal.periodType.localizedTitle)
                 if goal.periodType == .weeklyCount {
-                    detailRow("每周目标", "\(goal.weeklyTargetCount) 次")
+                    detailRow(String(localized: "goal.weekly_target", defaultValue: "每周目标"), L10n.timesCount(goal.weeklyTargetCount))
                 }
                 if goal.periodType == .weeklyFixedDays {
-                    detailRow("固定日期", weekdayText(goal.selectedWeekdays))
+                    detailRow(String(localized: "goal.fixed_days", defaultValue: "固定日期"), weekdayText(goal.selectedWeekdays))
                 }
-                detailRow("提醒时间", String(format: "%02d:%02d", goal.reminderHour, goal.reminderMinute))
-                detailRow("截止时间", String(format: "%02d:%02d", goal.deadlineHour, goal.deadlineMinute))
-                detailRow("监督提醒", goal.supervisionEnabled ? "开启" : "关闭")
+                detailRow(String(localized: "goal.reminder_time", defaultValue: "提醒时间"), L10n.timeHM(hour: goal.reminderHour, minute: goal.reminderMinute))
+                detailRow(String(localized: "goal.deadline_time", defaultValue: "截止时间"), L10n.timeHM(hour: goal.deadlineHour, minute: goal.deadlineMinute))
+                detailRow(String(localized: "goal.supervision_reminder", defaultValue: "监督提醒"), goal.supervisionEnabled ? L10n.statusOn : L10n.statusOff)
                 if goal.supervisionEnabled {
-                    detailRow(alarmStatusLabel, goal.ringEnabled ? alarmStatusValue : "关闭")
+                    detailRow(alarmStatusLabel, goal.ringEnabled ? alarmStatusValue : L10n.statusOff)
                 }
-                detailRow("暂停状态", goal.isPaused ? "已暂停" : "进行中")
+                detailRow(String(localized: "goal.pause_status", defaultValue: "暂停状态"), goal.isPaused ? L10n.statusPaused : L10n.statusActive)
             }
 
-            Section("今天操作") {
-                Button("标记完成") {
+            Section(String(localized: "goal_detail.section.today_actions", defaultValue: "今天操作")) {
+                Button(String(localized: "goal.action.mark_completed", defaultValue: "标记完成")) {
                     mark(.completed)
                 }
                 .foregroundStyle(.green)
 
-                Button("标记保底完成") {
+                Button(String(localized: "goal.action.mark_minimum_completed", defaultValue: "标记保底完成")) {
                     mark(.minimumCompleted)
                 }
                 .foregroundStyle(.orange)
 
-                Button(goal.isPaused ? "恢复提醒" : "暂停提醒") {
+                Button(goal.isPaused ? String(localized: "goal.action.resume_reminder", defaultValue: "恢复提醒") : String(localized: "goal.action.pause_reminder", defaultValue: "暂停提醒")) {
                     togglePause(goalID: goal.id)
                 }
             }
 
-            Section("历史记录") {
+            Section(String(localized: "goal_detail.section.history", defaultValue: "历史记录")) {
                 let sortedRecords = goal.records.sorted { $0.date > $1.date }
                 if sortedRecords.isEmpty {
-                    Text("还没有打卡记录")
+                    Text(String(localized: "goal_detail.empty_history", defaultValue: "还没有打卡记录"))
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(sortedRecords) { record in
@@ -83,7 +83,7 @@ struct GoalDetailView: View {
                             HStack {
                                 Text(record.date.formatted(date: .abbreviated, time: .omitted))
                                 Spacer()
-                                Text(record.status.rawValue)
+                                Text(record.status.localizedTitle)
                                     .font(.caption.bold())
                                     .foregroundStyle(color(for: record.status))
                             }
@@ -99,19 +99,19 @@ struct GoalDetailView: View {
             }
 
             Section {
-                Button("删除目标", role: .destructive) {
+                Button(String(localized: "goal.action.delete", defaultValue: "删除目标"), role: .destructive) {
                     showingDeleteConfirmation = true
                 }
             }
         }
             } else {
-                ContentUnavailableView("目标不存在", systemImage: "exclamationmark.triangle")
+                ContentUnavailableView(String(localized: "goal_detail.missing_goal", defaultValue: "目标不存在"), systemImage: "exclamationmark.triangle")
             }
         }
-        .navigationTitle("目标详情")
+        .navigationTitle(String(localized: "goal_detail.title", defaultValue: "目标详情"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("编辑") {
+                Button(String(localized: "common.edit", defaultValue: "编辑")) {
                     showingEditSheet = true
                 }
             }
@@ -123,8 +123,8 @@ struct GoalDetailView: View {
                 }
             }
         }
-        .confirmationDialog("删除后将移除该目标及历史记录", isPresented: $showingDeleteConfirmation) {
-            Button("删除", role: .destructive) {
+        .confirmationDialog(String(localized: "goal_detail.delete_confirmation", defaultValue: "删除后将移除该目标及历史记录"), isPresented: $showingDeleteConfirmation) {
+            Button(String(localized: "common.delete", defaultValue: "删除"), role: .destructive) {
                 deleteGoal(goalID: goalID)
             }
         }
@@ -197,26 +197,32 @@ struct GoalDetailView: View {
     }
 
     private func weekdayText(_ weekdays: [Int]) -> String {
-        let symbols = Calendar.current.shortWeekdaySymbols
+        let labels: [Int: String] = [
+            1: String(localized: "weekday.sun", defaultValue: "周日"),
+            2: String(localized: "weekday.mon", defaultValue: "周一"),
+            3: String(localized: "weekday.tue", defaultValue: "周二"),
+            4: String(localized: "weekday.wed", defaultValue: "周三"),
+            5: String(localized: "weekday.thu", defaultValue: "周四"),
+            6: String(localized: "weekday.fri", defaultValue: "周五"),
+            7: String(localized: "weekday.sat", defaultValue: "周六"),
+        ]
+
         return weekdays
-            .compactMap { weekday in
-                guard weekday > 0, weekday <= symbols.count else { return nil }
-                return symbols[weekday - 1]
-            }
+            .compactMap { labels[$0] }
             .joined(separator: "、")
     }
 
     private var alarmStatusLabel: String {
         if #available(iOS 26.0, *) {
-            return "闹钟式提醒"
+            return String(localized: "goal.alarm_style_reminder", defaultValue: "闹钟式提醒")
         }
-        return "提醒声音"
+        return String(localized: "goal.reminder_sound", defaultValue: "提醒声音")
     }
 
     private var alarmStatusValue: String {
         if #available(iOS 26.0, *) {
-            return "开启"
+            return L10n.statusOn
         }
-        return "单次通知音"
+        return String(localized: "goal.single_notification_sound", defaultValue: "单次通知音")
     }
 }

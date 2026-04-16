@@ -11,6 +11,9 @@
 - 打卡完成后的重排逻辑
 - 前后台触发提醒同步的时机
 
+如果任务是“看日志判断提醒是否正常”，还必须同时阅读：
+- [log-review-checklist.md](/Users/kl/Desktop/kunlunLibray/flutter/懒人不懒/docs/log-review-checklist.md)
+
 ## 2. 当前调度模型
 
 当前工程不再采用“长期重复提醒 + 当天跳过”的模型，而是统一采用“固定日期预设窗口”模型。
@@ -144,3 +147,14 @@
 - `removeNotifications(for:)` 是否仍能覆盖旧 identifier
 - AlarmKit 的 cancel 范围是否和 fixed-date window 一致
 - 文档 `PRODUCT_REQUIREMENTS.md` 是否仍与真实实现一致
+
+## 9. 日志验收口径
+
+提醒系统日志的统一判读方法见：
+- [log-review-checklist.md](/Users/kl/Desktop/kunlunLibray/flutter/懒人不懒/docs/log-review-checklist.md)
+
+尤其在以下场景下，不能只看 `success=true`：
+- 判断是否重复铺设
+- 判断是否漏删旧闹钟
+- 判断今天提醒是否应被跳过
+- 判断最终闹钟数量是否符合理论值

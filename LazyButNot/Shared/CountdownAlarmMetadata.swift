@@ -19,10 +19,14 @@ struct CountdownAlarmMetadata: AlarmMetadata {
 
         var title: String {
             switch self {
-            case .focus: "专注"
-            case .study: "学习"
-            case .reading: "阅读"
-            case .fitness: "健身"
+            case .focus:
+                String(localized: "countdown.context.focus", defaultValue: "专注")
+            case .study:
+                String(localized: "enum.goal_category.study", defaultValue: "学习")
+            case .reading:
+                String(localized: "enum.goal_category.reading", defaultValue: "阅读")
+            case .fitness:
+                String(localized: "enum.goal_category.fitness", defaultValue: "健身")
             }
         }
 
@@ -45,11 +49,11 @@ struct CountdownAlarmMetadata: AlarmMetadata {
         }
 
         var countdownTitle: String {
-            "\(title)进行中"
+            L10n.countdownInProgress(title)
         }
 
         var pausedTitle: String {
-            "\(title)已暂停"
+            L10n.countdownPaused(title)
         }
     }
 

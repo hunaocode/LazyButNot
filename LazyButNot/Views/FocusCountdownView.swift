@@ -73,7 +73,7 @@ struct FocusCountdownView: View {
 
     private var categoryText: some View {
         HStack(spacing: 6) {
-            Text(session.category.rawValue)
+            Text(session.category.localizedTitle)
             Image(systemName: "chevron.right")
                 .font(.system(size: 12, weight: .semibold))
         }
@@ -93,7 +93,7 @@ struct FocusCountdownView: View {
         Button {
             cancelFocus()
         } label: {
-            Text(isCancelling ? "取消中..." : "放弃专注")
+            Text(isCancelling ? String(localized: "focus.canceling", defaultValue: "取消中...") : String(localized: "focus.abandon", defaultValue: "放弃专注"))
                 .font(.system(size: 17, weight: .semibold, design: .rounded))
                 .foregroundStyle(Color.white.opacity(0.96))
                 .padding(.horizontal, 34)

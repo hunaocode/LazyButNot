@@ -44,7 +44,7 @@ struct LazyButNotAlarmLiveActivity: Widget {
                 leadingIconView(for: context, size: 44, iconSize: 20)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(context.attributes.metadata?.title ?? "倒计时闹钟")
+                    Text(context.attributes.metadata?.title ?? String(localized: "countdown.alarm_title", defaultValue: "倒计时闹钟"))
                         .font(.system(size: 17, weight: .semibold, design: .rounded))
                         .foregroundStyle(titleColor)
                         .lineLimit(1)
@@ -74,7 +74,7 @@ struct LazyButNotAlarmLiveActivity: Widget {
             leadingIconView(for: context, size: 28, iconSize: 13)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(context.attributes.metadata?.title ?? "倒计时")
+                Text(context.attributes.metadata?.title ?? String(localized: "countdown.short_title", defaultValue: "倒计时"))
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .foregroundStyle(titleColor)
                     .lineLimit(1)
@@ -228,10 +228,10 @@ struct LazyButNotAlarmLiveActivity: Widget {
             .frame(width: isCompact ? 36 : 40, height: isCompact ? 36 : 40)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text("时间到了")
+                Text(String(localized: "countdown.time_up", defaultValue: "时间到了"))
                     .font(.system(size: isCompact ? 16 : 17, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.98))
-                Text("请及时处理这次提醒")
+                Text(String(localized: "countdown.time_up_message", defaultValue: "请及时处理这次提醒"))
                     .font(.system(size: isCompact ? 12 : 13, weight: .medium, design: .rounded))
                     .foregroundStyle(.white.opacity(0.64))
             }
@@ -311,13 +311,13 @@ struct LazyButNotAlarmLiveActivity: Widget {
     ) -> String {
         switch context.state.mode {
         case .countdown:
-            return context.attributes.metadata?.context.countdownTitle ?? "正在倒计时"
+            return context.attributes.metadata?.context.countdownTitle ?? String(localized: "countdown.status.counting_down_fallback", defaultValue: "正在倒计时")
         case .paused:
-            return context.attributes.metadata?.context.pausedTitle ?? "倒计时已暂停"
+            return context.attributes.metadata?.context.pausedTitle ?? String(localized: "countdown.status.paused_fallback", defaultValue: "倒计时已暂停")
         case .alert:
-            return "提醒已触发"
+            return String(localized: "countdown.status.alert_triggered", defaultValue: "提醒已触发")
         @unknown default:
-            return "提醒已触发"
+            return String(localized: "countdown.status.alert_triggered", defaultValue: "提醒已触发")
         }
     }
 
@@ -326,13 +326,13 @@ struct LazyButNotAlarmLiveActivity: Widget {
     ) -> String {
         switch context.state.mode {
         case .countdown:
-            return "倒计时"
+            return String(localized: "countdown.short_title", defaultValue: "倒计时")
         case .paused:
-            return "已暂停"
+            return String(localized: "countdown.status.paused_short", defaultValue: "已暂停")
         case .alert:
-            return "提醒中"
+            return String(localized: "countdown.status.alerting", defaultValue: "提醒中")
         @unknown default:
-            return "提醒中"
+            return String(localized: "countdown.status.alerting", defaultValue: "提醒中")
         }
     }
 

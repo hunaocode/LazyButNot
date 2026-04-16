@@ -11,7 +11,7 @@ struct GoalCardView: View {
     let onMinimumComplete: () -> Void
 
     private var statusText: String {
-        status?.rawValue ?? "待完成"
+        status?.localizedTitle ?? String(localized: "goal.status.pending", defaultValue: "待完成")
     }
 
     private var statusColor: Color {
@@ -93,11 +93,11 @@ struct GoalCardView: View {
             }
 
             HStack(spacing: 8) {
-                chip(text: goal.category.rawValue)
+                chip(text: goal.category.localizedTitle)
                 if goal.periodType == .weeklyCount {
-                    chip(text: "本周 \(weekCount)/\(goal.weeklyTargetCount)")
+                    chip(text: L10n.weeklyProgressCompact(weekCount, goal.weeklyTargetCount))
                 } else {
-                    chip(text: "截止 \(String(format: "%02d:%02d", goal.deadlineHour, goal.deadlineMinute))")
+                    chip(text: L10n.deadlineChip(hour: goal.deadlineHour, minute: goal.deadlineMinute))
                 }
             }
         }
@@ -136,7 +136,7 @@ struct GoalCardView: View {
             }
         } else {
             HStack(spacing: 10) {
-                Button("完成", action: onComplete)
+                Button(String(localized: "goal.action.complete_short", defaultValue: "完成"), action: onComplete)
                     .font(.subheadline.bold())
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
@@ -144,7 +144,7 @@ struct GoalCardView: View {
                     .foregroundStyle(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
-                Button("保底完成", action: onMinimumComplete)
+                Button(String(localized: "goal.action.minimum_complete_short", defaultValue: "保底完成"), action: onMinimumComplete)
                     .font(.subheadline.bold())
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
@@ -163,7 +163,7 @@ struct GoalCardView: View {
         HStack(spacing: 8) {
             Image(systemName: status == .completed ? "checkmark.circle.fill" : "checkmark.seal.fill")
                 .font(.subheadline.weight(.semibold))
-            Text(status == .completed ? "已打卡" : "已保底打卡")
+            Text(status?.localizedBadgeTitle ?? String(localized: "goal.status.pending", defaultValue: "待完成"))
                 .font(.subheadline.bold())
         }
         .padding(.horizontal, 12)
