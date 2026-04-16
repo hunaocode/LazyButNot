@@ -4,6 +4,7 @@ import SwiftUI
 struct LazyButNotApp: App {
     @StateObject private var appRouter = AppRouter()
     @StateObject private var goalStore = GoalStore()
+    @StateObject private var themeStore = ThemeStore()
 
     init() {
         NotificationManager.shared.configure()
@@ -14,6 +15,7 @@ struct LazyButNotApp: App {
             RootTabView()
                 .environmentObject(appRouter)
                 .environmentObject(goalStore)
+                .environmentObject(themeStore)
         }
     }
 }

@@ -10,6 +10,7 @@ enum RootTab: Hashable {
 struct RootTabView: View {
     @EnvironmentObject private var router: AppRouter
     @EnvironmentObject private var goalStore: GoalStore
+    @EnvironmentObject private var themeStore: ThemeStore
     @Environment(\.scenePhase) private var scenePhase
     @State private var didRunStartupTask = false
     private let cancelCountdownURL = URL(string: "lazybutnot://countdown/cancel")!
@@ -55,7 +56,7 @@ struct RootTabView: View {
             }
             .tag(RootTab.settings)
         }
-        .tint(.orange)
+        .tint(themeStore.selectedTheme.palette.accent)
         .onOpenURL { url in
             Task { @MainActor in
                 guard url.scheme == cancelCountdownURL.scheme,

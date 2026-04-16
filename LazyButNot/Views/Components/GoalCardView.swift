@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct GoalCardView: View {
+    @EnvironmentObject private var themeStore: ThemeStore
+
     let goal: Goal
     let status: CheckInStatus?
     let weekCount: Int
+    var navigatesToDetail: Bool = true
     let onComplete: () -> Void
     let onMinimumComplete: () -> Void
 
@@ -20,65 +23,157 @@ struct GoalCardView: View {
         }
     }
 
+    private var palette: ThemePalette {
+        themeStore.selectedTheme.palette
+    }
+
+    private var isCompletedState: Bool {
+        status == .completed || status == .minimumCompleted
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .top, spacing: 12) {
-                Image(systemName: goal.category.iconName)
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(.orange)
-                    .frame(width: 44, height: 44)
-                    .background(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(Color.orange.opacity(0.12))
-                    )
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(goal.name)
-                        .font(.headline)
-
-                    Text(goal.minimumAction)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-
-                    if goal.periodType == .weeklyCount {
-                        Text("本周已完成 \(weekCount)/\(goal.weeklyTargetCount) 次")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        Text("截止时间 \(String(format: "%02d:%02d", goal.deadlineHour, goal.deadlineMinute))")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+            if navigatesToDetail {
+                NavigationLink {
+                    GoalDetailView(goalID: goal.id)
+                } label: {
+                    summaryContent(showsChevron: true)
                 }
-
-                Spacer()
-
-                Text(statusText)
-                    .font(.caption.bold())
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(
-                        Capsule(style: .continuous)
-                            .fill(statusColor.opacity(0.14))
-                    )
-                    .foregroundStyle(statusColor)
+                .buttonStyle(.plain)
+                .contentShape(Rectangle())
+            } else {
+                summaryContent(showsChevron: false)
             }
 
-            HStack(spacing: 10) {
-                Button("完成", action: onComplete)
-                    .buttonStyle(.borderedProminent)
-                    .tint(.green)
-
-                Button("保底完成", action: onMinimumComplete)
-                    .buttonStyle(.bordered)
-                    .tint(.orange)
-            }
+            actionArea
         }
         .padding(18)
         .background(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .fill(Color(.systemBackground))
-                .shadow(color: Color.black.opacity(0.05), radius: 12, y: 6)
+                .fill(palette.cardBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .stroke(palette.border, lineWidth: 1)
+                )
+                .shadow(color: palette.shadow, radius: 16, y: 10)
         )
+    }
+
+    private func summaryContent(showsChevron: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: goal.category.iconName)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 46, height: 46)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(palette.iconBackground)
+                    )
+
+                VStack(alignment: .leading, spacing: 7) {
+                    Text(goal.name)
+                        .font(.headline)
+                        .foregroundStyle(palette.primaryText)
+
+                    Text(goal.minimumAction)
+                        .font(.subheadline)
+                        .foregroundStyle(palette.secondaryText)
+                        .lineLimit(2)
+                }
+
+                Spacer()
+
+                if showsChevron {
+                    Image(systemName: "chevron.right")
+                        .font(.caption.bold())
+                        .foregroundStyle(palette.subtleText)
+                        .padding(.top, 4)
+                }
+            }
+
+            HStack(spacing: 8) {
+                chip(text: goal.category.rawValue)
+                if goal.periodType == .weeklyCount {
+                    chip(text: "本周 \(weekCount)/\(goal.weeklyTargetCount)")
+                } else {
+                    chip(text: "截止 \(String(format: "%02d:%02d", goal.deadlineHour, goal.deadlineMinute))")
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+    }
+
+    private func chip(text: String) -> some View {
+        Text(text)
+            .font(.caption.bold())
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(
+                Capsule(style: .continuous)
+                    .fill(palette.chipFill)
+            )
+            .foregroundStyle(palette.chipText)
+    }
+
+    @ViewBuilder
+    private var actionArea: some View {
+        if isCompletedState {
+            Group {
+                if navigatesToDetail {
+                    NavigationLink {
+                        GoalDetailView(goalID: goal.id)
+                    } label: {
+                        completedBadge
+                    }
+                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                } else {
+                    completedBadge
+                }
+            }
+        } else {
+            HStack(spacing: 10) {
+                Button("完成", action: onComplete)
+                    .font(.subheadline.bold())
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(palette.accent)
+                    .foregroundStyle(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+
+                Button("保底完成", action: onMinimumComplete)
+                    .font(.subheadline.bold())
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(Color.white.opacity(0.68))
+                    .foregroundStyle(palette.primaryText)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .stroke(palette.border, lineWidth: 1)
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            }
+        }
+    }
+
+    private var completedBadge: some View {
+        HStack(spacing: 8) {
+            Image(systemName: status == .completed ? "checkmark.circle.fill" : "checkmark.seal.fill")
+                .font(.subheadline.weight(.semibold))
+            Text(status == .completed ? "已打卡" : "已保底打卡")
+                .font(.subheadline.bold())
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .background(palette.accent.opacity(0.14))
+        .foregroundStyle(palette.accent)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(palette.accent.opacity(0.18), lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }

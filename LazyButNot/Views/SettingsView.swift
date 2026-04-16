@@ -4,10 +4,10 @@ import UIKit
 
 struct SettingsView: View {
     @EnvironmentObject private var goalStore: GoalStore
+    @EnvironmentObject private var themeStore: ThemeStore
     @State private var notificationStatus: UNAuthorizationStatus = .notDetermined
     @State private var notificationSoundSetting: UNNotificationSetting = .notSupported
     @State private var alarmPermissionState: AlarmPermissionState = .unavailable
-    @State private var deliveryMode: ReminderDeliveryMode = .notificationOnly
     @State private var alarmAuthorizationText: String?
     @State private var requestingPermission = false
     @State private var permissionMessage = ""
@@ -27,13 +27,6 @@ struct SettingsView: View {
                     Text("通知声音")
                     Spacer()
                     Text(notificationSoundText)
-                        .foregroundStyle(.secondary)
-                }
-
-                HStack {
-                    Text("当前提醒模式")
-                    Spacer()
-                    Text(deliveryModeText)
                         .foregroundStyle(.secondary)
                 }
 
@@ -68,6 +61,51 @@ struct SettingsView: View {
                 }
             }
 
+            Section("外观主题") {
+                ForEach(AppTheme.allCases) { theme in
+                    Button {
+                        themeStore.selectedTheme = theme
+                    } label: {
+                        HStack(spacing: 12) {
+                            Circle()
+                                .fill(theme.palette.detailBackground)
+                                .frame(width: 28, height: 28)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white.opacity(0.6), lineWidth: 1)
+                                )
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack(spacing: 8) {
+                                    Text(theme.displayName)
+                                        .foregroundStyle(.primary)
+                                    if theme.isPremium {
+                                        Text("预留付费")
+                                            .font(.caption2.bold())
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 3)
+                                            .background(Color.orange.opacity(0.12))
+                                            .foregroundStyle(.orange)
+                                            .clipShape(Capsule(style: .continuous))
+                                    }
+                                }
+                                Text(theme.tagline)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            if themeStore.selectedTheme == theme {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundStyle(theme.palette.accent)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
             Section("产品原则") {
                 principleRow("最小行动", "把目标拆到不会失败")
                 principleRow("持续坚持", "状态差也别完全停下")
@@ -82,6 +120,8 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("设置")
+        .scrollContentBackground(.hidden)
+        .background(themeStore.selectedTheme.palette.screenBackground)
         .task {
             await refreshNotificationStatus()
         }
@@ -150,19 +190,7 @@ struct SettingsView: View {
         notificationStatus = capability.authorizationStatus
         notificationSoundSetting = capability.soundSetting
         alarmPermissionState = capability.alarmPermissionState
-        deliveryMode = NotificationManager.shared.reminderDeliveryMode()
         alarmAuthorizationText = NotificationManager.shared.alarmAuthorizationDescription()
-    }
-
-    private var deliveryModeText: String {
-        switch deliveryMode {
-        case .notificationOnly:
-            return "普通通知"
-        case .alarmKitUnauthorized:
-            return "闹钟未授权"
-        case .alarmKitAuthorized:
-            return "闹钟模式"
-        }
     }
 
     private var permissionButtonTitle: String {

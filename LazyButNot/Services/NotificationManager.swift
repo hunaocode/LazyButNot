@@ -13,12 +13,6 @@ struct NotificationCapabilityStatus {
     let alarmPermissionState: AlarmPermissionState
 }
 
-enum ReminderDeliveryMode {
-    case notificationOnly
-    case alarmKitUnauthorized
-    case alarmKitAuthorized
-}
-
 enum AlarmPermissionState {
     case unavailable
     case notDetermined
@@ -122,23 +116,6 @@ final class NotificationManager: NSObject {
         case .unknown:
             return "未知"
         }
-    }
-
-    func reminderDeliveryMode() -> ReminderDeliveryMode {
-        #if canImport(AlarmKit)
-        guard #available(iOS 26.0, *) else { return .notificationOnly }
-
-        switch AlarmManager.shared.authorizationState {
-        case .authorized:
-            return .alarmKitAuthorized
-        case .notDetermined, .denied:
-            return .alarmKitUnauthorized
-        @unknown default:
-            return .alarmKitUnauthorized
-        }
-        #else
-        return .notificationOnly
-        #endif
     }
 
     func alarmPermissionState() -> AlarmPermissionState {

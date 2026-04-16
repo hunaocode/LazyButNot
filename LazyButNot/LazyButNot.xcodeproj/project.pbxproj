@@ -11,6 +11,8 @@
 		02F6B53CC4804678A816C7C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A62B86773E449D2B9951E35 /* LaunchScreen.storyboard */; };
 		0560B4BA700C8584316EFAF7 /* CheckInRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AC2148D9010F9C2FB0EFAA /* CheckInRecord.swift */; };
 		0788B78E2D9E483D4A99BA7E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD5242F0B3B0453335AFA25 /* StatsView.swift */; };
+		07C8B1AF7D29481AB8E30001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8B1AF7D29481AB8E30002 /* AppTheme.swift */; };
+		07C8B1AF7D29481AB8E30003 /* ThemeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8B1AF7D29481AB8E30004 /* ThemeStore.swift */; };
 		09273F215D406B14701443F9 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8190A47491914D05073CEE /* ProgressRingView.swift */; };
 		0E663BA7E63DC0BC5019771D /* GoalsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497EE37F33832F2D1B2DDE60 /* GoalsListView.swift */; };
 		1E7F3E4606C8EA889AB86771 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E339C0C4DAF621D09D6EF02 /* AppRouter.swift */; };
@@ -68,6 +70,8 @@
 /* Begin PBXFileReference section */
 		088CAFF4AF2E4DFE9C03D71B /* GoalStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalStore.swift; sourceTree = "<group>"; };
 		0914D586BD37CFB1A8A45CCB /* CountdownAlarmMetadata.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountdownAlarmMetadata.swift; sourceTree = "<group>"; };
+		07C8B1AF7D29481AB8E30002 /* AppTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		07C8B1AF7D29481AB8E30004 /* ThemeStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ThemeStore.swift; sourceTree = "<group>"; };
 		0C16A21FCD3036F99B80F7F7 /* LazyButNotAlarmLiveActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LazyButNotAlarmLiveActivity.swift; sourceTree = "<group>"; };
 		14A7820B8A4D4C109C6A77F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B7F553A2F94475E85CC3173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				088CAFF4AF2E4DFE9C03D71B /* GoalStore.swift */,
+				07C8B1AF7D29481AB8E30004 /* ThemeStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -270,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				0914D586BD37CFB1A8A45CCB /* CountdownAlarmMetadata.swift */,
+				07C8B1AF7D29481AB8E30002 /* AppTheme.swift */,
 			);
 			name = Shared;
 			path = Shared;
@@ -394,6 +400,7 @@
 				42FA7782B671078DFB9ECF67 /* Goal.swift in Sources */,
 				0560B4BA700C8584316EFAF7 /* CheckInRecord.swift in Sources */,
 				AEC80354C8EC2A251EBAA812 /* GoalStore.swift in Sources */,
+				07C8B1AF7D29481AB8E30003 /* ThemeStore.swift in Sources */,
 				CF2278F1E00A62E025E6802C /* NotificationManager.swift in Sources */,
 				88A55BA5BE6097B82860A465 /* GoalFormViewModel.swift in Sources */,
 				645C391C009F9C4F671F223F /* HomeDashboardView.swift in Sources */,
@@ -409,6 +416,7 @@
 				6A173DFE2FB74FAAA46688BA /* MinuteSelectionField.swift in Sources */,
 				94EAF51C3E68D7059E7E9E1F /* CountdownAlarmService.swift in Sources */,
 				BAC282553F67E102D622CE5B /* CountdownAlarmMetadata.swift in Sources */,
+				07C8B1AF7D29481AB8E30001 /* AppTheme.swift in Sources */,
 				3DFBEFE5587DFA94A762D44C /* CountdownAlarmSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

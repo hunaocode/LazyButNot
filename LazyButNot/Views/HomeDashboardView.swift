@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeDashboardView: View {
     @EnvironmentObject private var goalStore: GoalStore
+    @EnvironmentObject private var themeStore: ThemeStore
     @State private var showingCreateSheet = false
     @State private var showingCountdownSheet = false
 
@@ -49,25 +50,20 @@ struct HomeDashboardView: View {
                         sectionTitle("已完成")
 
                         ForEach(completedGoals) { goal in
-                            NavigationLink {
-                                GoalDetailView(goalID: goal.id)
-                            } label: {
-                                GoalCardView(
-                                    goal: goal,
-                                    status: GoalStore.completionStatus(for: goal),
-                                    weekCount: GoalStore.currentWeekCompletionCount(for: goal),
-                                    onComplete: { mark(goal, status: .completed) },
-                                    onMinimumComplete: { mark(goal, status: .minimumCompleted) }
-                                )
-                            }
-                            .buttonStyle(.plain)
+                            GoalCardView(
+                                goal: goal,
+                                status: GoalStore.completionStatus(for: goal),
+                                weekCount: GoalStore.currentWeekCompletionCount(for: goal),
+                                onComplete: { mark(goal, status: .completed) },
+                                onMinimumComplete: { mark(goal, status: .minimumCompleted) }
+                            )
                         }
                     }
                 }
             }
             .padding()
         }
-        .background(Color(.systemGroupedBackground))
+        .background(themeStore.selectedTheme.palette.screenBackground)
         .navigationTitle("今天")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -89,6 +85,7 @@ struct HomeDashboardView: View {
     }
 
     private var summaryCard: some View {
+        let palette = themeStore.selectedTheme.palette
         let completed = completedGoals.count
         let total = todayGoals.count
         let ratio = total == 0 ? 0 : Double(completed) / Double(total)
@@ -135,15 +132,10 @@ struct HomeDashboardView: View {
             .buttonStyle(.plain)
         }
         .padding(20)
-        .background(
-            LinearGradient(
-                colors: [Color.orange.opacity(0.95), Color.yellow.opacity(0.8)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        )
+        .background(palette.detailBackground)
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .foregroundStyle(.white)
+        .shadow(color: palette.shadow, radius: 18, y: 12)
     }
 
     private func sectionTitle(_ text: String) -> some View {

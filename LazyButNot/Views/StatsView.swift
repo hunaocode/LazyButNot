@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StatsView: View {
     @EnvironmentObject private var goalStore: GoalStore
+    @EnvironmentObject private var themeStore: ThemeStore
 
     private var progress: (completed: Int, total: Int) {
         GoalStore.todayProgress(goals: goalStore.goals)
@@ -62,6 +63,8 @@ struct StatsView: View {
         }
         .navigationTitle("统计")
         .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(themeStore.selectedTheme.palette.screenBackground)
     }
 
     private func metricCard(title: String, value: String, color: Color) -> some View {
