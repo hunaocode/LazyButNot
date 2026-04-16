@@ -3,19 +3,20 @@ import SwiftUI
 struct HomeDashboardView: View {
     @EnvironmentObject private var goalStore: GoalStore
     @State private var showingCreateSheet = false
+    @State private var showingCountdownSheet = false
 
-    private var dueGoals: [Goal] {
+    private var todayGoals: [Goal] {
         goalStore.goals
-            .filter { GoalStore.isDueToday($0) }
+            .filter { GoalStore.isDueToday($0) || GoalStore.isCompletedToday($0) }
             .sorted { GoalStore.todayDeadline(for: $0) < GoalStore.todayDeadline(for: $1) }
     }
 
     private var completedGoals: [Goal] {
-        dueGoals.filter { GoalStore.isCompletedToday($0) }
+        todayGoals.filter { GoalStore.isCompletedToday($0) }
     }
 
     private var pendingGoals: [Goal] {
-        dueGoals.filter { !GoalStore.isCompletedToday($0) }
+        todayGoals.filter { GoalStore.isDueToday($0) && !GoalStore.isCompletedToday($0) }
     }
 
     var body: some View {
@@ -82,18 +83,22 @@ struct HomeDashboardView: View {
                 GoalFormView()
             }
         }
+        .sheet(isPresented: $showingCountdownSheet) {
+            CountdownAlarmSheet()
+        }
     }
 
     private var summaryCard: some View {
-        let progress = GoalStore.todayProgress(goals: goalStore.goals)
-        let ratio = progress.total == 0 ? 0 : Double(progress.completed) / Double(progress.total)
+        let completed = completedGoals.count
+        let total = todayGoals.count
+        let ratio = total == 0 ? 0 : Double(completed) / Double(total)
 
         return VStack(alignment: .leading, spacing: 18) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("持续坚持，比爆发更重要")
                         .font(.title3.bold())
-                    Text("今天完成 \(progress.completed) / \(max(progress.total, 1)) 个目标")
+                    Text("今天完成 \(completed) / \(max(total, 1)) 个目标")
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -105,6 +110,29 @@ struct HomeDashboardView: View {
                 statChip(title: "已完成", value: "\(completedGoals.count)", color: .green)
                 statChip(title: "总目标", value: "\(goalStore.goals.count)", color: .orange)
             }
+
+            Button {
+                showingCountdownSheet = true
+            } label: {
+                HStack(spacing: 10) {
+                    Image(systemName: "timer")
+                        .font(.headline)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("开启专注模式")
+                            .font(.headline)
+                        Text("支持锁屏、灵动岛与待机显示")
+                            .font(.caption)
+                            .foregroundStyle(.white.opacity(0.86))
+                    }
+                    Spacer()
+                    Image(systemName: "arrow.right.circle.fill")
+                        .font(.title3)
+                }
+                .padding(14)
+                .background(Color.white.opacity(0.18))
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            }
+            .buttonStyle(.plain)
         }
         .padding(20)
         .background(

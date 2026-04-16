@@ -136,6 +136,20 @@ final class GoalStore: ObservableObject {
 }
 
 extension GoalStore {
+    private static func startOfDay(for date: Date, calendar: Calendar) -> Date {
+        calendar.startOfDay(for: date)
+    }
+
+    private static func matchesSuccessStatus(_ status: CheckInStatus, allowMinimumCompletion: Bool) -> Bool {
+        allowMinimumCompletion
+            ? (status == .completed || status == .minimumCompleted)
+            : (status == .completed)
+    }
+
+    static func currentWeekInterval(on date: Date = .now, calendar: Calendar = .current) -> DateInterval? {
+        calendar.dateInterval(of: .weekOfYear, for: date)
+    }
+
     static func record(for goal: Goal, on date: Date, calendar: Calendar = .current) -> CheckInRecord? {
         goal.records.first(where: { calendar.isDate($0.date, inSameDayAs: date) })
     }
@@ -150,7 +164,7 @@ extension GoalStore {
         case .weeklyFixedDays:
             return goal.selectedWeekdays.contains(weekday)
         case .weeklyCount:
-            return true
+            return !isWeeklyTargetMet(goal, on: date, calendar: calendar)
         }
     }
 
@@ -164,30 +178,49 @@ extension GoalStore {
     }
 
     static func todayProgress(goals: [Goal], on date: Date = .now, calendar: Calendar = .current) -> (completed: Int, total: Int) {
-        let dueGoals = goals.filter { isDueToday($0, on: date, calendar: calendar) }
-        let completed = dueGoals.filter { isCompletedToday($0, on: date, calendar: calendar) }.count
-        return (completed, dueGoals.count)
+        let todayGoals = goals.filter {
+            isDueToday($0, on: date, calendar: calendar) || isCompletedToday($0, on: date, calendar: calendar)
+        }
+        let completed = todayGoals.filter { isCompletedToday($0, on: date, calendar: calendar) }.count
+        return (completed, todayGoals.count)
     }
 
     static func currentWeekCompletionCount(for goal: Goal, on date: Date = .now, calendar: Calendar = .current) -> Int {
-        guard let interval = calendar.dateInterval(of: .weekOfYear, for: date) else { return 0 }
+        guard let interval = currentWeekInterval(on: date, calendar: calendar) else { return 0 }
         return goal.records.filter { interval.contains($0.date) && $0.status != .missed }.count
     }
 
+    static func isWeeklyTargetMet(_ goal: Goal, on date: Date = .now, calendar: Calendar = .current) -> Bool {
+        guard goal.periodType == .weeklyCount else { return false }
+        return currentWeekCompletionCount(for: goal, on: date, calendar: calendar) >= goal.weeklyTargetCount
+    }
+
+    static func weeklyRemainingCount(for goal: Goal, on date: Date = .now, calendar: Calendar = .current) -> Int {
+        guard goal.periodType == .weeklyCount else { return 0 }
+        return max(goal.weeklyTargetCount - currentWeekCompletionCount(for: goal, on: date, calendar: calendar), 0)
+    }
+
     static func streak(for goal: Goal, allowMinimumCompletion: Bool, calendar: Calendar = .current) -> Int {
+        switch goal.periodType {
+        case .daily:
+            return dailyStreak(for: goal, allowMinimumCompletion: allowMinimumCompletion, calendar: calendar)
+        case .weeklyFixedDays:
+            return weeklyFixedDaysStreak(for: goal, allowMinimumCompletion: allowMinimumCompletion, calendar: calendar)
+        case .weeklyCount:
+            return weeklyCountStreak(for: goal, allowMinimumCompletion: allowMinimumCompletion, calendar: calendar)
+        }
+    }
+
+    private static func dailyStreak(for goal: Goal, allowMinimumCompletion: Bool, calendar: Calendar) -> Int {
         let sortedRecords = goal.records.sorted { $0.date > $1.date }
         guard !sortedRecords.isEmpty else { return 0 }
 
         var streak = 0
-        var currentDate = calendar.startOfDay(for: .now)
+        var currentDate = startOfDay(for: .now, calendar: calendar)
 
         while true {
             if let record = sortedRecords.first(where: { calendar.isDate($0.date, inSameDayAs: currentDate) }) {
-                let matches = allowMinimumCompletion
-                    ? (record.status == .completed || record.status == .minimumCompleted)
-                    : (record.status == .completed)
-
-                if matches {
+                if matchesSuccessStatus(record.status, allowMinimumCompletion: allowMinimumCompletion) {
                     streak += 1
                     guard let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
                     currentDate = previousDay
@@ -200,6 +233,80 @@ extension GoalStore {
             }
 
             break
+        }
+
+        return streak
+    }
+
+    private static func weeklyFixedDaysStreak(for goal: Goal, allowMinimumCompletion: Bool, calendar: Calendar) -> Int {
+        let scheduledDays = Set(goal.selectedWeekdays)
+        guard !scheduledDays.isEmpty else { return 0 }
+
+        var streak = 0
+        var currentDate = startOfDay(for: .now, calendar: calendar)
+        var checkedScheduledDate = false
+
+        while true {
+            let weekday = calendar.component(.weekday, from: currentDate)
+            guard scheduledDays.contains(weekday) else {
+                guard let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
+                currentDate = previousDay
+                continue
+            }
+
+            checkedScheduledDate = true
+
+            if let record = record(for: goal, on: currentDate, calendar: calendar) {
+                if matchesSuccessStatus(record.status, allowMinimumCompletion: allowMinimumCompletion) {
+                    streak += 1
+                } else {
+                    break
+                }
+            } else if calendar.isDateInToday(currentDate) {
+                guard let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
+                currentDate = previousDay
+                continue
+            } else {
+                break
+            }
+
+            guard let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
+            currentDate = previousDay
+        }
+
+        return checkedScheduledDate ? streak : 0
+    }
+
+    private static func weeklyCountStreak(for goal: Goal, allowMinimumCompletion: Bool, calendar: Calendar) -> Int {
+        let successfulRecords = goal.records.filter {
+            matchesSuccessStatus($0.status, allowMinimumCompletion: allowMinimumCompletion)
+        }
+        guard !successfulRecords.isEmpty else { return 0 }
+
+        var streak = 0
+        var currentDate = startOfDay(for: .now, calendar: calendar)
+
+        while let interval = currentWeekInterval(on: currentDate, calendar: calendar) {
+            let count = successfulRecords.filter { interval.contains($0.date) }.count
+
+            if interval.contains(.now) {
+                if count >= goal.weeklyTargetCount {
+                    streak += 1
+                } else if count == 0 {
+                    guard let previousWeek = calendar.date(byAdding: .day, value: -7, to: currentDate) else { break }
+                    currentDate = previousWeek
+                    continue
+                } else {
+                    break
+                }
+            } else if count >= goal.weeklyTargetCount {
+                streak += 1
+            } else {
+                break
+            }
+
+            guard let previousWeek = calendar.date(byAdding: .day, value: -7, to: currentDate) else { break }
+            currentDate = previousWeek
         }
 
         return streak

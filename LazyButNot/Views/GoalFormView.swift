@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct GoalFormView: View {
     @Environment(\.dismiss) private var dismiss
@@ -22,6 +23,10 @@ struct GoalFormView: View {
     ]
 
     private let offsetOptions: [Int] = [60, 30, 15, 10, 5]
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    @State private var showingAlert = false
+    @State private var showSettingsAction = false
 
     var body: some View {
         Form {
@@ -58,16 +63,30 @@ struct GoalFormView: View {
                 DatePicker("截止时间", selection: $viewModel.deadlineDate, displayedComponents: .hourAndMinute)
 
                 Toggle("开启监督提醒", isOn: $viewModel.supervisionEnabled)
+                    .onChange(of: viewModel.supervisionEnabled) { _, enabled in
+                        if enabled {
+                            normalizeRingEnabledIfNeeded()
+                        } else {
+                            viewModel.ringEnabled = false
+                        }
+                    }
 
                 if viewModel.supervisionEnabled {
                     offsetPicker
-                    Toggle("临近截止带声音提醒", isOn: $viewModel.ringEnabled)
+                    Toggle(alarmToggleTitle, isOn: ringToggleBinding)
+
+                    Text(alarmHintText)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
 
                 Toggle("暂停目标", isOn: $viewModel.isPaused)
             }
         }
         .navigationTitle(goal == nil ? "新建目标" : "编辑目标")
+        .task {
+            normalizeRingEnabledIfNeeded()
+        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button("取消") {
@@ -81,6 +100,21 @@ struct GoalFormView: View {
                 }
                 .disabled(!viewModel.canSave)
             }
+        }
+        .onChange(of: viewModel.customSupervisionOffset) { _, newValue in
+            viewModel.supervisionOffsets.insert(newValue)
+        }
+        .alert(alertTitle, isPresented: $showingAlert) {
+            if showSettingsAction {
+                Button("取消", role: .cancel) { }
+                Button("确定") {
+                    openAppSettings()
+                }
+            } else {
+                Button("知道了", role: .cancel) { }
+            }
+        } message: {
+            Text(alertMessage)
         }
     }
 
@@ -142,8 +176,47 @@ struct GoalFormView: View {
                     .buttonStyle(.plain)
                 }
             }
+
+            MinuteSelectionField(
+                title: "自定义",
+                value: $viewModel.customSupervisionOffset,
+                presetOptions: offsetOptions,
+                customRange: Array(1...180),
+                highlightsCustomSelection: true,
+                placeholderText: "未设置",
+                allowsClearingCustomSelection: true,
+                isSelectionActive: hasCustomSupervisionOffset,
+                onClearSelection: clearCustomSupervisionOffset
+            )
         }
         .padding(.vertical, 4)
+    }
+
+    private var alarmToggleTitle: String {
+        if #available(iOS 26.0, *) {
+            return "开启闹钟式提醒"
+        }
+        return "开启提醒声音"
+    }
+
+    private var alarmHintText: String {
+        if #available(iOS 26.0, *) {
+            return "开启后，到截止前会像系统闹钟一样提醒你；如果没开权限，需要先到系统设置里允许。"
+        }
+        return "当前系统版本不支持闹钟式提醒，只能使用普通通知。"
+    }
+
+    private var ringToggleBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.ringEnabled },
+            set: { newValue in
+                if newValue {
+                    attemptEnableRingReminder()
+                } else {
+                    viewModel.ringEnabled = false
+                }
+            }
+        )
     }
 
     private func save() {
@@ -165,10 +238,97 @@ struct GoalFormView: View {
         )
 
         Task {
-            await NotificationManager.shared.requestAuthorization()
+            _ = await NotificationManager.shared.requestNotificationAuthorization()
             await NotificationManager.shared.scheduleNotifications(for: savedGoal)
         }
 
         dismiss()
+    }
+
+    private var hasCustomSupervisionOffset: Bool {
+        viewModel.supervisionOffsets.contains(viewModel.customSupervisionOffset) &&
+        !offsetOptions.contains(viewModel.customSupervisionOffset)
+    }
+
+    private func clearCustomSupervisionOffset() {
+        viewModel.supervisionOffsets.remove(viewModel.customSupervisionOffset)
+    }
+
+    private func normalizeRingEnabledIfNeeded() {
+        guard viewModel.supervisionEnabled else {
+            viewModel.ringEnabled = false
+            return
+        }
+
+        if #available(iOS 26.0, *) {
+            viewModel.ringEnabled = NotificationManager.shared.alarmPermissionState() == .authorized
+        } else {
+            viewModel.ringEnabled = false
+        }
+    }
+
+    private func attemptEnableRingReminder() {
+        guard viewModel.supervisionEnabled else {
+            viewModel.ringEnabled = false
+            return
+        }
+
+        guard #available(iOS 26.0, *) else {
+            viewModel.ringEnabled = false
+            presentAlert(
+                title: "当前系统不支持",
+                message: "闹钟式提醒需要 iOS 26 及以上版本，升级系统后才可以使用。"
+            )
+            return
+        }
+
+        switch NotificationManager.shared.alarmPermissionState() {
+        case .authorized:
+            viewModel.ringEnabled = true
+        case .denied:
+            viewModel.ringEnabled = false
+            presentSettingsAlert(
+                title: "闹钟权限未开启",
+                message: "请前往系统设置，为“懒人不懒”打开闹钟权限后再使用闹钟式提醒。"
+            )
+        case .notDetermined:
+            Task { @MainActor in
+                let result = await NotificationManager.shared.requestAlarmAuthorization()
+                if result == .authorized {
+                    viewModel.ringEnabled = true
+                } else {
+                    viewModel.ringEnabled = false
+                    presentSettingsAlert(
+                        title: "闹钟权限未开启",
+                        message: "未开启闹钟权限时，无法使用闹钟式提醒。请前往系统设置打开权限。"
+                    )
+                }
+            }
+        case .unavailable, .unknown:
+            viewModel.ringEnabled = false
+            presentAlert(
+                title: "当前系统不支持",
+                message: "当前设备暂时无法使用闹钟式提醒。"
+            )
+        }
+    }
+
+    private func presentAlert(title: String, message: String) {
+        alertTitle = title
+        alertMessage = message
+        showSettingsAction = false
+        showingAlert = true
+    }
+
+    private func presentSettingsAlert(title: String, message: String) {
+        alertTitle = title
+        alertMessage = message
+        showSettingsAction = true
+        showingAlert = true
+    }
+
+    private func openAppSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
     }
 }

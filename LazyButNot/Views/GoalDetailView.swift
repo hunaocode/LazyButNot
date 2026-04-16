@@ -11,6 +11,9 @@ struct GoalDetailView: View {
     var body: some View {
         Group {
             if let goal = goalStore.goal(withID: goalID) {
+                let weekCount = GoalStore.currentWeekCompletionCount(for: goal)
+                let weeklyRemaining = GoalStore.weeklyRemainingCount(for: goal)
+
                 List {
             Section {
                 VStack(alignment: .leading, spacing: 14) {
@@ -23,8 +26,13 @@ struct GoalDetailView: View {
                     }
 
                     HStack(spacing: 12) {
-                        metricCard("连续完成", "\(GoalStore.streak(for: goal, allowMinimumCompletion: false)) 天", color: .green)
-                        metricCard("持续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天", color: .orange)
+                        if goal.periodType == .weeklyCount {
+                            metricCard("本周完成", "\(weekCount)/\(goal.weeklyTargetCount)", color: .green)
+                            metricCard("本周状态", weeklyRemaining == 0 ? "已达标" : "还差 \(weeklyRemaining) 次", color: .orange)
+                        } else {
+                            metricCard("连续完成", "\(GoalStore.streak(for: goal, allowMinimumCompletion: false)) 天", color: .green)
+                            metricCard("持续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天", color: .orange)
+                        }
                     }
                 }
                 .padding(.vertical, 8)
@@ -42,6 +50,9 @@ struct GoalDetailView: View {
                 detailRow("提醒时间", String(format: "%02d:%02d", goal.reminderHour, goal.reminderMinute))
                 detailRow("截止时间", String(format: "%02d:%02d", goal.deadlineHour, goal.deadlineMinute))
                 detailRow("监督提醒", goal.supervisionEnabled ? "开启" : "关闭")
+                if goal.supervisionEnabled {
+                    detailRow(alarmStatusLabel, goal.ringEnabled ? alarmStatusValue : "关闭")
+                }
                 detailRow("暂停状态", goal.isPaused ? "已暂停" : "进行中")
             }
 
@@ -193,5 +204,19 @@ struct GoalDetailView: View {
                 return symbols[weekday - 1]
             }
             .joined(separator: "、")
+    }
+
+    private var alarmStatusLabel: String {
+        if #available(iOS 26.0, *) {
+            return "闹钟式提醒"
+        }
+        return "提醒声音"
+    }
+
+    private var alarmStatusValue: String {
+        if #available(iOS 26.0, *) {
+            return "开启"
+        }
+        return "单次通知音"
     }
 }

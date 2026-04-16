@@ -35,14 +35,24 @@ struct StatsView: View {
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(goalStore.goals) { goal in
+                        let weekCount = GoalStore.currentWeekCompletionCount(for: goal)
+                        let weeklyRemaining = GoalStore.weeklyRemainingCount(for: goal)
+                        let totalCheckIns = goal.records.filter { $0.status != .missed }.count
+
                         VStack(alignment: .leading, spacing: 10) {
                             Text(goal.name)
                                 .font(.headline)
 
                             HStack(spacing: 12) {
-                                statBlock("连续完成", "\(GoalStore.streak(for: goal, allowMinimumCompletion: false)) 天")
-                                statBlock("未中断", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天")
-                                statBlock("本周次数", "\(GoalStore.currentWeekCompletionCount(for: goal))")
+                                if goal.periodType == .weeklyCount {
+                                    statBlock("本周进度", "\(weekCount)/\(goal.weeklyTargetCount)")
+                                    statBlock("本周状态", weeklyRemaining == 0 ? "已达标" : "还差 \(weeklyRemaining) 次")
+                                    statBlock("累计打卡", "\(totalCheckIns) 次")
+                                } else {
+                                    statBlock("连续完成", "\(GoalStore.streak(for: goal, allowMinimumCompletion: false)) 天")
+                                    statBlock("持续坚持", "\(GoalStore.streak(for: goal, allowMinimumCompletion: true)) 天")
+                                    statBlock("本周次数", "\(weekCount)")
+                                }
                             }
                         }
                         .padding(.vertical, 6)

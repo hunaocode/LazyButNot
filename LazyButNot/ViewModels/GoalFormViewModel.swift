@@ -15,6 +15,7 @@ final class GoalFormViewModel: ObservableObject {
     @Published var supervisionOffsets: Set<Int> = [30, 10, 5]
     @Published var ringEnabled: Bool = true
     @Published var isPaused: Bool = false
+    @Published var customSupervisionOffset: Int = 20
 
     init(goal: Goal? = nil) {
         guard let goal else { return }
@@ -29,6 +30,7 @@ final class GoalFormViewModel: ObservableObject {
         deadlineDate = Calendar.current.date(from: goal.deadlineTime) ?? deadlineDate
         supervisionEnabled = goal.supervisionEnabled
         supervisionOffsets = Set(goal.supervisionOffsets)
+        customSupervisionOffset = goal.supervisionOffsets.sorted(by: >).first ?? customSupervisionOffset
         ringEnabled = goal.ringEnabled
         isPaused = goal.isPaused
     }
