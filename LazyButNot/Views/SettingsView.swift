@@ -16,110 +16,102 @@ struct SettingsView: View {
     @State private var permissionMessage = ""
     @State private var showingPermissionMessage = false
 
+    private var palette: ThemePalette {
+        themeStore.selectedTheme.palette
+    }
+
     var body: some View {
         List {
             Section(String(localized: "settings.section.notifications", defaultValue: "通知")) {
-                HStack {
-                    Text(String(localized: "settings.permission_status", defaultValue: "权限状态"))
-                    Spacer()
-                    Text(notificationStatusText)
-                        .foregroundStyle(.secondary)
-                }
-
-                HStack {
-                    Text(String(localized: "settings.notification_sound", defaultValue: "通知声音"))
-                    Spacer()
-                    Text(notificationSoundText)
-                        .foregroundStyle(.secondary)
-                }
-
-                if let alarmAuthorizationText {
+                VStack(alignment: .leading, spacing: 12) {
                     HStack {
-                        Text(String(localized: "settings.alarm_permission", defaultValue: "闹钟提醒权限"))
+                        Text(String(localized: "settings.permission_status", defaultValue: "权限状态"))
+                            .foregroundStyle(palette.primaryText)
                         Spacer()
-                        Text(alarmAuthorizationText)
-                            .foregroundStyle(.secondary)
+                        Text(notificationStatusText)
+                            .foregroundStyle(palette.secondaryText)
                     }
-                }
 
-                Button {
-                    requestPermission()
-                } label: {
-                    if requestingPermission {
-                        ProgressView()
-                    } else {
-                        Text(permissionButtonTitle)
+                    HStack {
+                        Text(String(localized: "settings.notification_sound", defaultValue: "通知声音"))
+                            .foregroundStyle(palette.primaryText)
+                        Spacer()
+                        Text(notificationSoundText)
+                            .foregroundStyle(palette.secondaryText)
                     }
-                }
-                .disabled(permissionButtonDisabled)
 
-                Text(permissionHintText)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-
-                Button(String(localized: "settings.resync_all_reminders", defaultValue: "重新同步所有提醒")) {
-                    Task {
-                        await NotificationManager.shared.scheduleAll(goals: goalStore.goals)
+                    if let alarmAuthorizationText {
+                        HStack {
+                            Text(String(localized: "settings.alarm_permission", defaultValue: "闹钟提醒权限"))
+                                .foregroundStyle(palette.primaryText)
+                            Spacer()
+                            Text(alarmAuthorizationText)
+                                .foregroundStyle(palette.secondaryText)
+                        }
                     }
+
+                    Button {
+                        requestPermission()
+                    } label: {
+                        if requestingPermission {
+                            ProgressView()
+                        } else {
+                            Text(permissionButtonTitle)
+                        }
+                    }
+                    .disabled(permissionButtonDisabled)
+                    .foregroundStyle(permissionButtonDisabled ? palette.subtleText : palette.accent)
+
+                    Text(permissionHintText)
+                        .font(.footnote)
+                        .foregroundStyle(palette.subtleText)
+
+                    Button(String(localized: "settings.resync_all_reminders", defaultValue: "重新同步所有提醒")) {
+                        Task {
+                            await NotificationManager.shared.scheduleAll(goals: goalStore.goals)
+                        }
+                    }
+                    .foregroundStyle(palette.accent)
                 }
+                .settingsSectionCardStyle(palette)
             }
 
             Section(String(localized: "settings.section.themes", defaultValue: "外观主题")) {
-                ForEach(AppTheme.allCases) { theme in
-                    Button {
-                        themeStore.selectedTheme = theme
-                    } label: {
-                        HStack(spacing: 12) {
-                            Circle()
-                                .fill(theme.palette.detailBackground)
-                                .frame(width: 28, height: 28)
-                                .overlay(
-                                    Circle()
-                                        .stroke(Color.white.opacity(0.6), lineWidth: 1)
-                                )
+                ForEach(ThemeCollection.allCases) { collection in
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(collection.displayName)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(palette.secondaryText)
 
-                            VStack(alignment: .leading, spacing: 2) {
-                                HStack(spacing: 8) {
-                                    Text(theme.displayName)
-                                        .foregroundStyle(.primary)
-                                    if theme.isPremium {
-                                        Text(String(localized: "settings.premium_reserved", defaultValue: "预留付费"))
-                                            .font(.caption2.bold())
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 3)
-                                            .background(Color.orange.opacity(0.12))
-                                            .foregroundStyle(.orange)
-                                            .clipShape(Capsule(style: .continuous))
-                                    }
-                                }
-                                Text(theme.tagline)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-
-                            Spacer()
-
-                            if themeStore.selectedTheme == theme {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(theme.palette.accent)
-                            }
+                        ForEach(themes(in: collection)) { theme in
+                            themeRow(theme)
                         }
                     }
-                    .buttonStyle(.plain)
+                    .settingsSectionCardStyle(
+                        palette,
+                        insets: EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
+                    )
                 }
             }
 
             Section(String(localized: "settings.section.principles", defaultValue: "产品原则")) {
-                principleRow(String(localized: "settings.principle.minimum_action.title", defaultValue: "最小行动"), String(localized: "settings.principle.minimum_action.subtitle", defaultValue: "把目标拆到不会失败"))
-                principleRow(String(localized: "settings.principle.consistency.title", defaultValue: "持续坚持"), String(localized: "settings.principle.consistency.subtitle", defaultValue: "状态差也别完全停下"))
-                principleRow(String(localized: "settings.principle.active_reminder.title", defaultValue: "主动提醒"), String(localized: "settings.principle.active_reminder.subtitle", defaultValue: "把记得做，变成被触发"))
+                VStack(alignment: .leading, spacing: 12) {
+                    principleRow(String(localized: "settings.principle.minimum_action.title", defaultValue: "最小行动"), String(localized: "settings.principle.minimum_action.subtitle", defaultValue: "把目标拆到不会失败"))
+                    principleRow(String(localized: "settings.principle.consistency.title", defaultValue: "持续坚持"), String(localized: "settings.principle.consistency.subtitle", defaultValue: "状态差也别完全停下"))
+                    principleRow(String(localized: "settings.principle.active_reminder.title", defaultValue: "主动提醒"), String(localized: "settings.principle.active_reminder.subtitle", defaultValue: "把记得做，变成被触发"))
+                }
+                .settingsSectionCardStyle(palette)
             }
 
             Section(String(localized: "settings.section.about", defaultValue: "关于")) {
-                Text(String(localized: "app.name", defaultValue: "懒人不懒"))
-                    .font(.headline)
-                Text(String(localized: "settings.about.description", defaultValue: "强调“持续坚持”而不是“高强度自律”的本地打卡 App。"))
-                    .foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(String(localized: "app.name", defaultValue: "懒人不懒"))
+                        .font(.headline)
+                        .foregroundStyle(palette.primaryText)
+                    Text(String(localized: "settings.about.description", defaultValue: "强调“持续坚持”而不是“高强度自律”的本地打卡 App。"))
+                        .foregroundStyle(palette.secondaryText)
+                }
+                .settingsSectionCardStyle(palette)
             }
 
 #if DEBUG
@@ -132,10 +124,13 @@ struct SettingsView: View {
                         String(localized: "settings.debug.localization_entry", defaultValue: "多语言调试"),
                         systemImage: "globe"
                     )
+                    .foregroundStyle(palette.primaryText)
                 }
+                .settingsSectionCardStyle(palette)
             }
 #endif
         }
+        .listStyle(.plain)
         .navigationTitle(L10n.tabSettings)
         .scrollContentBackground(.hidden)
         .background(themeStore.selectedTheme.palette.screenBackground)
@@ -297,10 +292,81 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.headline)
+                .foregroundStyle(palette.primaryText)
             Text(subtitle)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(palette.secondaryText)
         }
         .padding(.vertical, 4)
+    }
+
+    private func themes(in collection: ThemeCollection) -> [AppTheme] {
+        AppTheme.allCases.filter { $0.collection == collection }
+    }
+
+    private func themeRow(_ theme: AppTheme) -> some View {
+        Button {
+            themeStore.selectedTheme = theme
+        } label: {
+            HStack(spacing: 12) {
+                Circle()
+                    .fill(theme.palette.detailBackground)
+                    .frame(width: 28, height: 28)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.6), lineWidth: 1)
+                    )
+
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 8) {
+                        Text(theme.displayName)
+                            .foregroundStyle(palette.primaryText)
+                        if theme.isPremium {
+                            Text(String(localized: "settings.premium_reserved", defaultValue: "预留付费"))
+                                .font(.caption2.bold())
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(palette.chipFill)
+                                .foregroundStyle(palette.chipText)
+                                .clipShape(Capsule(style: .continuous))
+                        }
+                    }
+                    Text(theme.tagline)
+                        .font(.caption)
+                        .foregroundStyle(palette.secondaryText)
+                }
+
+                Spacer()
+
+                if themeStore.selectedTheme == theme {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(theme.palette.accent)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private extension View {
+    func settingsSectionCardStyle(
+        _ palette: ThemePalette,
+        insets: EdgeInsets = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+    ) -> some View {
+        padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(palette.cardBackground)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .stroke(palette.border, lineWidth: 1)
+                    )
+            )
+            .listRowInsets(insets)
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
     }
 }

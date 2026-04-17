@@ -1,23 +1,6 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
-    "app.name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "LazyButNot"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "懒人不懒"
-          }
-        }
-      }
-    },
     "app.launch.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -31,6 +14,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你只需要持续坚持"
+          }
+        }
+      }
+    },
+    "app.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LazyButNot"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "懒人不懒"
           }
         }
       }
@@ -3789,6 +3789,91 @@
         }
       }
     },
+    "theme.amber_dusk.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amber Dusk"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "琥珀暮光"
+          }
+        }
+      }
+    },
+    "theme.collection.base" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Base Collection"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基础主题"
+          }
+        }
+      }
+    },
+    "theme.collection.dark_premium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark Premium"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色质感"
+          }
+        }
+      }
+    },
+    "theme.collection.fresh_light" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fresh Light"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清透浅色"
+          }
+        }
+      }
+    },
+    "theme.collection.warm_atmosphere" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warm Atmosphere"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖调氛围"
+          }
+        }
+      }
+    },
     "theme.forest.name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3806,6 +3891,57 @@
         }
       }
     },
+    "theme.glacier_lavender.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glacier Lavender"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冰川雾紫"
+          }
+        }
+      }
+    },
+    "theme.midnight_gold.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Midnight Gold"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜幕金"
+          }
+        }
+      }
+    },
+    "theme.mint_haze.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mint Haze"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "薄荷云岚"
+          }
+        }
+      }
+    },
     "theme.ocean.name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3819,6 +3955,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "海岸蓝"
+          }
+        }
+      }
+    },
+    "theme.polar_night.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polar Night"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "极夜青"
+          }
+        }
+      }
+    },
+    "theme.rose_mist.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rose Mist"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雾玫瑰"
           }
         }
       }
@@ -3870,6 +4040,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "进阶主题"
+          }
+        }
+      }
+    },
+    "theme.terracotta_sand.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terracotta Sand"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "赤陶砂"
           }
         }
       }

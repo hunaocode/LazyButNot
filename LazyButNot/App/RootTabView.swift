@@ -57,6 +57,7 @@ struct RootTabView: View {
             .tag(RootTab.settings)
         }
         .tint(themeStore.selectedTheme.palette.accent)
+        .preferredColorScheme(themeStore.selectedTheme.preferredColorScheme)
         .onOpenURL { url in
             Task { @MainActor in
                 guard url.scheme == cancelCountdownURL.scheme,
