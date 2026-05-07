@@ -75,23 +75,60 @@ struct SettingsView: View {
                 }
                 .settingsSectionCardStyle(palette)
             }
+            
+            Section(String(localized: "settings.section.support", defaultValue: "支持")) {
+                NavigationLink {
+                    ContactUsView()
+                        .environmentObject(themeStore)
+                } label: {
+                    HStack(spacing: 12) {
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(palette.iconBackground)
+                            .frame(width: 42, height: 42)
+                            .overlay(
+                                Image(systemName: "envelope.fill")
+                                    .font(.headline)
+                                    .foregroundStyle(.white)
+                            )
 
-            Section(String(localized: "settings.section.themes", defaultValue: "外观主题")) {
-                ForEach(ThemeCollection.allCases) { collection in
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text(collection.displayName)
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(palette.secondaryText)
-
-                        ForEach(themes(in: collection)) { theme in
-                            themeRow(theme)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(String(localized: "settings.contact.title", defaultValue: "联系我们"))
+                                .font(.headline)
+                                .foregroundStyle(palette.primaryText)
+                            Text(String(localized: "settings.contact.entry_subtitle", defaultValue: "问题反馈、建议与定制化需求"))
+                                .font(.subheadline)
+                                .foregroundStyle(palette.secondaryText)
                         }
                     }
-                    .settingsSectionCardStyle(
-                        palette,
-                        insets: EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
-                    )
                 }
+                .settingsSectionCardStyle(palette)
+            }
+
+            Section(String(localized: "settings.section.themes", defaultValue: "外观主题")) {
+                NavigationLink {
+                    ThemeSettingsView()
+                        .environmentObject(themeStore)
+                } label: {
+                    HStack(spacing: 12) {
+                        Circle()
+                            .fill(themeStore.selectedTheme.palette.detailBackground)
+                            .frame(width: 42, height: 42)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.6), lineWidth: 1)
+                            )
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(String(localized: "settings.section.themes", defaultValue: "外观主题"))
+                                .font(.headline)
+                                .foregroundStyle(palette.primaryText)
+                            Text(themeStore.selectedTheme.displayName)
+                                .font(.subheadline)
+                                .foregroundStyle(palette.secondaryText)
+                        }
+                    }
+                }
+                .settingsSectionCardStyle(palette)
             }
 
             Section(String(localized: "settings.section.principles", defaultValue: "产品原则")) {
@@ -113,7 +150,7 @@ struct SettingsView: View {
                 }
                 .settingsSectionCardStyle(palette)
             }
-
+            
 #if DEBUG
             Section(String(localized: "settings.section.debug", defaultValue: "调试")) {
                 NavigationLink {
@@ -300,6 +337,42 @@ struct SettingsView: View {
         .padding(.vertical, 4)
     }
 
+}
+
+struct ThemeSettingsView: View {
+    @EnvironmentObject private var themeStore: ThemeStore
+
+    private var palette: ThemePalette {
+        themeStore.selectedTheme.palette
+    }
+
+    var body: some View {
+        List {
+            Section(String(localized: "settings.section.themes", defaultValue: "外观主题")) {
+                ForEach(ThemeCollection.allCases) { collection in
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(collection.displayName)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(palette.secondaryText)
+
+                        ForEach(themes(in: collection)) { theme in
+                            themeRow(theme)
+                        }
+                    }
+                    .settingsSectionCardStyle(
+                        palette,
+                        insets: EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
+                    )
+                }
+            }
+        }
+        .listStyle(.plain)
+        .navigationTitle(String(localized: "settings.section.themes", defaultValue: "外观主题"))
+        .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .background(palette.screenBackground)
+    }
+
     private func themes(in collection: ThemeCollection) -> [AppTheme] {
         AppTheme.allCases.filter { $0.collection == collection }
     }
@@ -350,6 +423,121 @@ struct SettingsView: View {
     }
 }
 
+struct ContactUsView: View {
+    @EnvironmentObject private var themeStore: ThemeStore
+    @Environment(\.openURL) private var openURL
+    @State private var showingCopiedAlert = false
+
+    private let email = "hunao163@gmail.com"
+
+    private var palette: ThemePalette {
+        themeStore.selectedTheme.palette
+    }
+
+    private var mailURL: URL {
+        URL(string: "mailto:\(email)")!
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                VStack(alignment: .leading, spacing: 12) {
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .fill(palette.iconBackground)
+                        .frame(width: 58, height: 58)
+                        .overlay(
+                            Image(systemName: "envelope.open.fill")
+                                .font(.title2.weight(.bold))
+                                .foregroundStyle(.white)
+                        )
+
+                    Text(String(localized: "settings.contact.title", defaultValue: "联系我们"))
+                        .font(.title2.bold())
+                        .foregroundStyle(palette.primaryText)
+
+                    Text(String(localized: "settings.contact.intro", defaultValue: "如在使用过程中遇到问题或有建议，欢迎通过以下方式联系我们："))
+                        .font(.body)
+                        .foregroundStyle(palette.secondaryText)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .contactCardStyle(palette)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(String(localized: "settings.contact.email_label", defaultValue: "Email"))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(palette.subtleText)
+
+                    Button {
+                        guard UIApplication.shared.canOpenURL(mailURL) else {
+                            copyEmailToClipboard()
+                            return
+                        }
+
+                        openURL(mailURL) { accepted in
+                            if !accepted {
+                                DispatchQueue.main.async {
+                                    copyEmailToClipboard()
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: "paperplane.fill")
+                                .font(.subheadline.weight(.semibold))
+                            Text(email)
+                                .font(.headline)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                                .font(.caption.weight(.bold))
+                        }
+                        .foregroundStyle(palette.accent)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(palette.chipFill)
+                        )
+                    }
+                    .buttonStyle(.plain)
+
+                    Text(String(localized: "settings.contact.response_time", defaultValue: "我们会在 1–2 个工作日内回复"))
+                        .font(.subheadline)
+                        .foregroundStyle(palette.secondaryText)
+                }
+                .contactCardStyle(palette)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(String(localized: "settings.contact.custom_title", defaultValue: "个性化需求"))
+                        .font(.headline)
+                        .foregroundStyle(palette.primaryText)
+
+                    Text(String(localized: "settings.contact.custom_body", defaultValue: "如果你有个性化或定制化需求，也欢迎与我们沟通，我们会根据实际情况评估并持续优化产品能力。"))
+                        .font(.body)
+                        .foregroundStyle(palette.secondaryText)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .contactCardStyle(palette)
+            }
+            .padding(16)
+        }
+        .background(palette.screenBackground)
+        .navigationTitle(String(localized: "settings.contact.title", defaultValue: "联系我们"))
+        .navigationBarTitleDisplayMode(.inline)
+        .alert(String(localized: "settings.contact.email_copied_title", defaultValue: "已复制邮箱"), isPresented: $showingCopiedAlert) {
+            Button(String(localized: "common.ok", defaultValue: "知道了"), role: .cancel) { }
+        } message: {
+            Text(String(localized: "settings.contact.email_copied_message", defaultValue: "当前设备无法打开邮件 App，邮箱地址已复制到剪贴板。"))
+        }
+    }
+
+    private func copyEmailToClipboard() {
+        UIPasteboard.general.string = email
+        showingCopiedAlert = true
+    }
+}
+
 private extension View {
     func settingsSectionCardStyle(
         _ palette: ThemePalette,
@@ -368,5 +556,19 @@ private extension View {
             .listRowInsets(insets)
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
+    }
+
+    func contactCardStyle(_ palette: ThemePalette) -> some View {
+        padding(18)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(palette.cardBackground)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .stroke(palette.border, lineWidth: 1)
+                    )
+                    .shadow(color: palette.shadow, radius: 14, y: 8)
+            )
     }
 }

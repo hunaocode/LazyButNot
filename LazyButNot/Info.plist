@@ -33,6 +33,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+	</array>
 	<key>NSAlarmKitUsageDescription</key>
 	<string>用于在临近目标截止时提供闹钟式强提醒。</string>
 	<key>NSSupportsLiveActivities</key>

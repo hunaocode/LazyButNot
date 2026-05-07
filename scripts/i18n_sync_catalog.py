@@ -8,6 +8,7 @@ SWIFT_ROOT = ROOT / "LazyButNot"
 CATALOG_PATH = SWIFT_ROOT / "Localizable.xcstrings"
 
 LOCALIZED_CALL_RE = re.compile(r'String\(localized:\s*"([^"]+)"\s*,\s*defaultValue:\s*"([^"]*)"')
+LOCALIZED_RESOURCE_RE = re.compile(r'LocalizedStringResource\(\s*"([^"]+)"\s*,\s*defaultValue:\s*"([^"]*)"')
 CHINESE_STRING_RE = re.compile(r'"([^"\n]*[\u4e00-\u9fff][^"\n]*)"')
 
 EN_OVERRIDES = {
@@ -63,6 +64,15 @@ EN_OVERRIDES = {
     "关于": "About",
     "懒人不懒": "LazyButNot",
     "强调“持续坚持”而不是“高强度自律”的本地打卡 App。": "A local habit app focused on consistency instead of intense discipline.",
+    "支持": "Support",
+    "联系我们": "Contact Us",
+    "问题反馈、建议与定制化需求": "Bug reports, suggestions, and custom requests",
+    "如在使用过程中遇到问题或有建议，欢迎通过以下方式联系我们：": "If you run into any issues or have suggestions while using the app, please contact us through the following channel:",
+    "我们会在 1–2 个工作日内回复": "We will reply within 1–2 business days.",
+    "已复制邮箱": "Email Copied",
+    "当前设备无法打开邮件 App，邮箱地址已复制到剪贴板。": "This device cannot open a mail app. The email address has been copied to the clipboard.",
+    "个性化需求": "Personalized Requests",
+    "如果你有个性化或定制化需求，也欢迎与我们沟通，我们会根据实际情况评估并持续优化产品能力。": "If you have personalized or custom needs, you are also welcome to contact us. We will evaluate them based on the actual situation and continue improving the product.",
     "你只需要持续坚持": "You just need consistency",
     "提醒权限": "Reminder Permission",
     "知道了": "OK",
@@ -225,6 +235,11 @@ EN_OVERRIDES = {
     "notification.reminder.body": "Start \"%@\" now. Even the minimum action counts.",
     "notification.supervision.body": "\"%@\" is due in %2$lld minutes. Don't forget to finish it.",
     "notification.deadline_alert.title": "\"%@\" is almost due",
+    "countdown.action.close": "Close",
+    "countdown.action.pause": "Pause",
+    "countdown.action.repeat": "Repeat",
+    "countdown.action.resume": "Resume",
+    "notification.action.stop": "Stop",
     "enum.goal_category.study": "Study",
     "enum.goal_category.fitness": "Fitness",
     "enum.goal_category.reading": "Reading",
@@ -347,7 +362,10 @@ def collect_entries():
         content = path.read_text(encoding="utf-8")
         for key, default in LOCALIZED_CALL_RE.findall(content):
             entries[key] = default
+        for key, default in LOCALIZED_RESOURCE_RE.findall(content):
+            entries[key] = default
         stripped = LOCALIZED_CALL_RE.sub("", content)
+        stripped = LOCALIZED_RESOURCE_RE.sub("", stripped)
         for literal in CHINESE_STRING_RE.findall(stripped):
             if not is_probably_user_facing(literal):
                 continue
@@ -371,18 +389,37 @@ def make_string_entry(zh_value: str, en_value: str):
     }
 
 
+def dumps_xcode_json(payload):
+    text = json.dumps(payload, ensure_ascii=False, indent=2)
+    lines = []
+    for line in text.splitlines():
+        lines.append(re.sub(r'^(\s*)"([^"]+)"\s*:', r'\1"\2" :', line))
+    return "\n".join(lines) + "\n"
+
+
 def main():
     catalog = load_catalog()
     entries = collect_entries()
+    existing_strings = catalog.get("strings", {})
     strings = {}
+    remaining_keys = set(entries)
 
-    for key, zh_value in sorted(entries.items()):
+    for key in existing_strings:
+        if key not in entries:
+            continue
+        zh_value = entries[key]
+        en_value = EN_OVERRIDES.get(key) or EN_OVERRIDES.get(zh_value, zh_value)
+        strings[key] = make_string_entry(zh_value, en_value)
+        remaining_keys.discard(key)
+
+    for key in sorted(remaining_keys):
+        zh_value = entries[key]
         en_value = EN_OVERRIDES.get(key) or EN_OVERRIDES.get(zh_value, zh_value)
         strings[key] = make_string_entry(zh_value, en_value)
 
     catalog["strings"] = strings
     CATALOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CATALOG_PATH.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    CATALOG_PATH.write_text(dumps_xcode_json(catalog), encoding="utf-8")
     print(f"synced {len(entries)} entries to {CATALOG_PATH}")
 
 
