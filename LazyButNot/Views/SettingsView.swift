@@ -346,6 +346,10 @@ struct ThemeSettingsView: View {
         themeStore.selectedTheme.palette
     }
 
+    private var showsPremiumReservedBadge: Bool {
+        false
+    }
+
     var body: some View {
         List {
             Section(String(localized: "settings.section.themes", defaultValue: "外观主题")) {
@@ -394,7 +398,7 @@ struct ThemeSettingsView: View {
                     HStack(spacing: 8) {
                         Text(theme.displayName)
                             .foregroundStyle(palette.primaryText)
-                        if theme.isPremium {
+                        if showsPremiumReservedBadge && theme.isPremium {
                             Text(String(localized: "settings.premium_reserved", defaultValue: "预留付费"))
                                 .font(.caption2.bold())
                                 .padding(.horizontal, 8)
