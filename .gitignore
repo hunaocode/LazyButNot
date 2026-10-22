@@ -17,3 +17,24 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Signing assets and local credentials
+*.p12
+*.pfx
+*.p8
+*.pem
+*.key
+*.cer
+*.csr
+*.mobileprovision
+*.provisionprofile
+.env
+.env.*
+!.env.example
+*.xcdistributionlogs/
+*.xcarchive/
+*.xcresult/
+
+# Keep final store images and previews; raw captures and duplicate bundles stay local.
+/artifacts/**/raw/
+/artifacts/**/*.zip

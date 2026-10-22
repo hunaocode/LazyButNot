@@ -49,7 +49,7 @@ struct RootTabView: View {
             .tag(RootTab.stats)
 
             NavigationStack {
-                SettingsView()
+                settingsContent
             }
             .tabItem {
                 Label(L10n.tabSettings, systemImage: "gearshape.fill")
@@ -95,5 +95,18 @@ struct RootTabView: View {
                 await NotificationManager.shared.scheduleAll(goals: goalStore.goals)
             }
         }
+    }
+
+    @ViewBuilder
+    private var settingsContent: some View {
+#if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.environment["LAZYBUTNOT_SCREENSHOT_TAB"] == "themes" {
+            ThemeSettingsView()
+        } else {
+            SettingsView()
+        }
+#else
+        SettingsView()
+#endif
     }
 }

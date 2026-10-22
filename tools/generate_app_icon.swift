@@ -150,12 +150,33 @@ func makeImage(side: CGFloat) -> NSImage {
 }
 
 func save(_ image: NSImage, to url: URL) throws {
+    let width = Int(image.size.width)
+    let height = Int(image.size.height)
+    var sourceRect = NSRect(x: 0, y: 0, width: width, height: height)
+
     guard
-        let tiff = image.tiffRepresentation,
-        let bitmap = NSBitmapImageRep(data: tiff),
-        let pngData = bitmap.representation(using: .png, properties: [:])
+        let sourceImage = image.cgImage(forProposedRect: &sourceRect, context: nil, hints: nil),
+        let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: width * 4,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue
+        )
     else {
         throw NSError(domain: "IconGeneration", code: 1)
+    }
+
+    context.interpolationQuality = .high
+    context.draw(sourceImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+
+    guard
+        let outputImage = context.makeImage(),
+        let pngData = NSBitmapImageRep(cgImage: outputImage).representation(using: .png, properties: [:])
+    else {
+        throw NSError(domain: "IconGeneration", code: 2)
     }
     try pngData.write(to: url)
 }

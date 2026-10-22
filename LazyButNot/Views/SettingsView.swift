@@ -102,6 +102,32 @@ struct SettingsView: View {
                     }
                 }
                 .settingsSectionCardStyle(palette)
+
+                NavigationLink {
+                    PrivacyPolicyView()
+                        .environmentObject(themeStore)
+                } label: {
+                    HStack(spacing: 12) {
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(palette.iconBackground)
+                            .frame(width: 42, height: 42)
+                            .overlay(
+                                Image(systemName: "hand.raised.fill")
+                                    .font(.headline)
+                                    .foregroundStyle(.white)
+                            )
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(String(localized: "settings.privacy.title", defaultValue: "隐私政策"))
+                                .font(.headline)
+                                .foregroundStyle(palette.primaryText)
+                            Text(String(localized: "settings.privacy.entry_subtitle", defaultValue: "了解本地数据、权限和隐私处理方式"))
+                                .font(.subheadline)
+                                .foregroundStyle(palette.secondaryText)
+                        }
+                    }
+                }
+                .settingsSectionCardStyle(palette)
             }
 
             Section(String(localized: "settings.section.themes", defaultValue: "外观主题")) {
@@ -539,6 +565,66 @@ struct ContactUsView: View {
     private func copyEmailToClipboard() {
         UIPasteboard.general.string = email
         showingCopiedAlert = true
+    }
+}
+
+struct PrivacyPolicyView: View {
+    @EnvironmentObject private var themeStore: ThemeStore
+
+    private var palette: ThemePalette {
+        themeStore.selectedTheme.palette
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text(String(localized: "settings.privacy.updated", defaultValue: "更新日期：2026 年 10 月 17 日"))
+                    .font(.footnote)
+                    .foregroundStyle(palette.subtleText)
+
+                privacySection(
+                    title: String(localized: "settings.privacy.summary_title", defaultValue: "隐私摘要"),
+                    body: String(localized: "settings.privacy.summary_body", defaultValue: "懒人不懒无需注册账号，不接入广告或分析服务，也不会将你的目标、打卡记录或设置上传到开发者服务器。")
+                )
+
+                privacySection(
+                    title: String(localized: "settings.privacy.local_data_title", defaultValue: "本地数据"),
+                    body: String(localized: "settings.privacy.local_data_body", defaultValue: "目标、打卡记录、主题设置和活动中的专注会话由 App 保存在你的设备上。删除目标会同时删除其历史记录；卸载 App 会移除 App 的本地数据。如果你启用了 Apple 的设备或 iCloud 备份，系统备份可能包含这些数据。")
+                )
+
+                privacySection(
+                    title: String(localized: "settings.privacy.permissions_title", defaultValue: "系统权限"),
+                    body: String(localized: "settings.privacy.permissions_body", defaultValue: "通知权限用于发送目标提醒；在 iOS 26 及以上版本，闹钟权限和实时活动用于监督提醒、专注倒计时及锁屏展示。你可以拒绝权限或随时在系统设置中关闭。")
+                )
+
+                privacySection(
+                    title: String(localized: "settings.privacy.collection_title", defaultValue: "数据收集与共享"),
+                    body: String(localized: "settings.privacy.collection_body", defaultValue: "当前版本不收集、不出售、不共享个人数据，不进行跨 App 跟踪，也不包含第三方数据收集 SDK。设备诊断信息是否与 Apple 共享由你的系统隐私设置决定，开发者不会通过本 App 主动收集这些信息。")
+                )
+
+                privacySection(
+                    title: String(localized: "settings.privacy.contact_title", defaultValue: "联系我们"),
+                    body: String(localized: "settings.privacy.contact_body", defaultValue: "如对本隐私政策有疑问，请发送邮件至 hunao163@gmail.com。你主动发送邮件时，邮箱地址和邮件内容会由邮件服务商传递，并仅用于回复和处理你的请求；本 App 不会自动读取或上传这些信息。")
+                )
+            }
+            .padding(16)
+        }
+        .background(palette.screenBackground)
+        .navigationTitle(String(localized: "settings.privacy.title", defaultValue: "隐私政策"))
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func privacySection(title: String, body: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(palette.primaryText)
+            Text(body)
+                .font(.body)
+                .foregroundStyle(palette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .contactCardStyle(palette)
     }
 }
 

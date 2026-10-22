@@ -29,8 +29,8 @@
 		42FA7782B671078DFB9ECF67 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D0713007E64A1080476769 /* Goal.swift */; };
 		645C391C009F9C4F671F223F /* HomeDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88F4967C1A1C0C6D0A4D0E6 /* HomeDashboardView.swift */; };
 		65AEFD11A2B74B8EA91A7D31 /* FocusCountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFB177F4D664B7F8C92F60F /* FocusCountdownView.swift */; };
-		6A173DFE2FB74FAAA46688BA /* MinuteSelectionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AE26B22D154F7E84A5BA68 /* MinuteSelectionField.swift */; };
 		69BDF28B785BFFE3C81A26C5 /* LazyButNotWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2864CC03747CC5A4FE06C616 /* LazyButNotWidgetExtension.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6A173DFE2FB74FAAA46688BA /* MinuteSelectionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AE26B22D154F7E84A5BA68 /* MinuteSelectionField.swift */; };
 		7CD422AF5E49F0CB55579467 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F7C62AAD8D348C20AA217B /* Foundation.framework */; };
 		850F868DE63401584AE8C510 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AEBAFB792E53E0262201E3 /* Enums.swift */; };
 		88A55BA5BE6097B82860A465 /* GoalFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81CC974F29A4B0685F1F232 /* GoalFormViewModel.swift */; };
@@ -41,6 +41,7 @@
 		AEC80354C8EC2A251EBAA812 /* GoalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CAFF4AF2E4DFE9C03D71B /* GoalStore.swift */; };
 		B236DDF5907C8FDCC107EB01 /* LazyButNotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDD4FF1B235172BD732904D /* LazyButNotApp.swift */; };
 		BAC282553F67E102D622CE5B /* CountdownAlarmMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0914D586BD37CFB1A8A45CCB /* CountdownAlarmMetadata.swift */; };
+		B7A100000000000000000001 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B7A100000000000000000002 /* PrivacyInfo.xcprivacy */; };
 		BE4A81A472B3D7D74313F4ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F7C62AAD8D348C20AA217B /* Foundation.framework */; };
 		C437159DB25A2D9C3F1B47A2 /* LazyButNotAlarmLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C16A21FCD3036F99B80F7F7 /* LazyButNotAlarmLiveActivity.swift */; };
 		CC7E546D5C99588E71191994 /* GoalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9AD9A443D110C726BA28E /* GoalCardView.swift */; };
@@ -76,10 +77,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		088CAFF4AF2E4DFE9C03D71B /* GoalStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalStore.swift; sourceTree = "<group>"; };
-		0914D586BD37CFB1A8A45CCB /* CountdownAlarmMetadata.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountdownAlarmMetadata.swift; sourceTree = "<group>"; };
 		07C8B1AF7D29481AB8E30002 /* AppTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		07C8B1AF7D29481AB8E30004 /* ThemeStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ThemeStore.swift; sourceTree = "<group>"; };
+		088CAFF4AF2E4DFE9C03D71B /* GoalStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalStore.swift; sourceTree = "<group>"; };
+		0914D586BD37CFB1A8A45CCB /* CountdownAlarmMetadata.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountdownAlarmMetadata.swift; sourceTree = "<group>"; };
+		0AFB177F4D664B7F8C92F60F /* FocusCountdownView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FocusCountdownView.swift; sourceTree = "<group>"; };
 		0C16A21FCD3036F99B80F7F7 /* LazyButNotAlarmLiveActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LazyButNotAlarmLiveActivity.swift; sourceTree = "<group>"; };
 		14A7820B8A4D4C109C6A77F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A1111111111111111111115 /* L10n.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
@@ -97,7 +99,6 @@
 		43AC2148D9010F9C2FB0EFAA /* CheckInRecord.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CheckInRecord.swift; sourceTree = "<group>"; };
 		43F7C62AAD8D348C20AA217B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		497EE37F33832F2D1B2DDE60 /* GoalsListView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalsListView.swift; sourceTree = "<group>"; };
-		0AFB177F4D664B7F8C92F60F /* FocusCountdownView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FocusCountdownView.swift; sourceTree = "<group>"; };
 		4DE4C9DC181C749832C748E2 /* RootTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		50F9C4A9F876E1DACA7EBDD4 /* CountdownAlarmService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountdownAlarmService.swift; sourceTree = "<group>"; };
 		62CF616ECBBCF0868BDCD351 /* SettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -109,14 +110,15 @@
 		84AEBAFB792E53E0262201E3 /* Enums.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		86FF0A21EE57FD1137C910A6 /* EmptyStateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		8DC9AD9A443D110C726BA28E /* GoalCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalCardView.swift; sourceTree = "<group>"; };
-		A1AE26B22D154F7E84A5BA68 /* MinuteSelectionField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MinuteSelectionField.swift; sourceTree = "<group>"; };
 		92D0713007E64A1080476769 /* Goal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		9B8190A47491914D05073CEE /* ProgressRingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
+		A1AE26B22D154F7E84A5BA68 /* MinuteSelectionField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MinuteSelectionField.swift; sourceTree = "<group>"; };
 		A32D4485B21B2101727CA937 /* LazyButNotWidgetBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LazyButNotWidgetBundle.swift; sourceTree = "<group>"; };
 		A5B4070E1C662EA095E22239 /* GoalDetailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalDetailView.swift; sourceTree = "<group>"; };
 		A81CC974F29A4B0685F1F232 /* GoalFormViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalFormViewModel.swift; sourceTree = "<group>"; };
 		AA5C601FD6C33042229D4012 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/UserNotifications.framework; sourceTree = DEVELOPER_DIR; };
 		AF1204CB8AFD6C59CA6F73E0 /* CountdownAlarmSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CountdownAlarmSheet.swift; sourceTree = "<group>"; };
+		B7A100000000000000000002 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		D05D0FFC30329174FCECFCA7 /* GoalFormView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoalFormView.swift; sourceTree = "<group>"; };
 		D88F4967C1A1C0C6D0A4D0E6 /* HomeDashboardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HomeDashboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -193,7 +195,6 @@
 				0C16A21FCD3036F99B80F7F7 /* LazyButNotAlarmLiveActivity.swift */,
 				231E56E546CCF306F6648F99 /* Info.plist */,
 			);
-			name = LazyButNotWidgetExtension;
 			path = LazyButNotWidgetExtension;
 			sourceTree = "<group>";
 		};
@@ -262,6 +263,7 @@
 				1A1111111111111111111128 /* InfoPlist.strings */,
 				1A1111111111111111111131 /* LaunchScreen.storyboard */,
 				14A7820B8A4D4C109C6A77F2 /* Info.plist */,
+				B7A100000000000000000002 /* PrivacyInfo.xcprivacy */,
 				EA95ACE66112C670D401C3C3 /* Models */,
 				D578B2097CE38BC766B43510 /* Stores */,
 				8CBE456A52CA63EE2FAFFA91 /* Services */,
@@ -299,24 +301,10 @@
 				07C8B1AF7D29481AB8E30002 /* AppTheme.swift */,
 				1A1111111111111111111115 /* L10n.swift */,
 			);
-			name = Shared;
 			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
-
-/* Begin PBXVariantGroup section */
-		1A1111111111111111111131 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1A1111111111111111111129 /* LaunchScreen.storyboard */,
-				1A1111111111111111111130 /* LaunchScreen.storyboard */,
-				1A1111111111111111111132 /* LaunchScreen.storyboard */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin PBXNativeTarget section */
 		08FC46BC7A49D7AF54CA0163 /* LazyButNotWidgetExtension */ = {
@@ -366,11 +354,11 @@
 				ORGANIZATIONNAME = kl;
 				TargetAttributes = {
 					08FC46BC7A49D7AF54CA0163 = {
-						DevelopmentTeam = B4B75G9X7L;
+						DevelopmentTeam = ZT4G687V3G;
 						ProvisioningStyle = Automatic;
 					};
 					DF7FCED325C95EAF1B3AA502 = {
-						DevelopmentTeam = B4B75G9X7L;
+						DevelopmentTeam = ZT4G687V3G;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -382,7 +370,7 @@
 			knownRegions = (
 				en,
 				Base,
-				zh-Hans,
+				"zh-Hans",
 			);
 			mainGroup = A7C806E6731ED46870706145;
 			productRefGroup = 42DED0F18948EA7A4B18E175 /* Products */;
@@ -405,6 +393,7 @@
 				1A1111111111111111111125 /* InfoPlist.strings in Resources */,
 				1A1111111111111111111126 /* InfoPlist.strings in Resources */,
 				02F6B53CC4804678A816C7C0 /* LaunchScreen.storyboard in Resources */,
+				B7A100000000000000000001 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +465,19 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		1A1111111111111111111131 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A1111111111111111111129 /* LaunchScreen.storyboard */,
+				1A1111111111111111111130 /* LaunchScreen.storyboard */,
+				1A1111111111111111111132 /* LaunchScreen.storyboard */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		0FCB3BBDA1069B4318011501 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -485,7 +487,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B4B75G9X7L;
+				DEVELOPMENT_TEAM = ZT4G687V3G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -575,7 +577,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B4B75G9X7L;
+				DEVELOPMENT_TEAM = ZT4G687V3G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = LazyButNotWidgetExtension/Info.plist;
@@ -603,7 +605,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B4B75G9X7L;
+				DEVELOPMENT_TEAM = ZT4G687V3G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -629,7 +631,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B4B75G9X7L;
+				DEVELOPMENT_TEAM = ZT4G687V3G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = LazyButNotWidgetExtension/Info.plist;

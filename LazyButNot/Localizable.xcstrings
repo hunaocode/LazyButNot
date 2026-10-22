@@ -4369,6 +4369,227 @@
           }
         }
       }
+    },
+    "settings.privacy.collection_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The current version does not collect, sell, or share personal data, perform cross-app tracking, or include third-party data collection SDKs. Whether device diagnostics are shared with Apple is controlled by your system privacy settings; the developer does not actively collect them through this app."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前版本不收集、不出售、不共享个人数据，不进行跨 App 跟踪，也不包含第三方数据收集 SDK。设备诊断信息是否与 Apple 共享由你的系统隐私设置决定，开发者不会通过本 App 主动收集这些信息。"
+          }
+        }
+      }
+    },
+    "settings.privacy.collection_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data Collection and Sharing"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据收集与共享"
+          }
+        }
+      }
+    },
+    "settings.privacy.contact_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you have questions about this privacy policy, email hunao163@gmail.com. When you choose to send an email, your address and message are transmitted by your email provider and used only to reply to and handle your request; the app does not automatically read or upload this information."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如对本隐私政策有疑问，请发送邮件至 hunao163@gmail.com。你主动发送邮件时，邮箱地址和邮件内容会由邮件服务商传递，并仅用于回复和处理你的请求；本 App 不会自动读取或上传这些信息。"
+          }
+        }
+      }
+    },
+    "settings.privacy.contact_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact Us"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "联系我们"
+          }
+        }
+      }
+    },
+    "settings.privacy.entry_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn how local data and permissions are handled"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "了解本地数据、权限和隐私处理方式"
+          }
+        }
+      }
+    },
+    "settings.privacy.local_data_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goals, check-in records, theme settings, and active focus sessions are stored by the app on your device. Deleting a goal also deletes its history; uninstalling the app removes the app's local data. If you enable Apple's device or iCloud backups, a system backup may include this data."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目标、打卡记录、主题设置和活动中的专注会话由 App 保存在你的设备上。删除目标会同时删除其历史记录；卸载 App 会移除 App 的本地数据。如果你启用了 Apple 的设备或 iCloud 备份，系统备份可能包含这些数据。"
+          }
+        }
+      }
+    },
+    "settings.privacy.local_data_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local Data"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本地数据"
+          }
+        }
+      }
+    },
+    "settings.privacy.permissions_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification permission is used for goal reminders. On iOS 26 and later, alarm permission and Live Activities are used for supervision reminders, focus countdowns, and Lock Screen displays. You can deny these permissions or disable them at any time in Settings."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知权限用于发送目标提醒；在 iOS 26 及以上版本，闹钟权限和实时活动用于监督提醒、专注倒计时及锁屏展示。你可以拒绝权限或随时在系统设置中关闭。"
+          }
+        }
+      }
+    },
+    "settings.privacy.permissions_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Permissions"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统权限"
+          }
+        }
+      }
+    },
+    "settings.privacy.summary_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LazyButNot does not require an account, use advertising or analytics services, or upload your goals, check-in records, or settings to a developer server."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "懒人不懒无需注册账号，不接入广告或分析服务，也不会将你的目标、打卡记录或设置上传到开发者服务器。"
+          }
+        }
+      }
+    },
+    "settings.privacy.summary_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Summary"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私摘要"
+          }
+        }
+      }
+    },
+    "settings.privacy.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私政策"
+          }
+        }
+      }
+    },
+    "settings.privacy.updated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last updated: October 17, 2026"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新日期：2026 年 10 月 17 日"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
