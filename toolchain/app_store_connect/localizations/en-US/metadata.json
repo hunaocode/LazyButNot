@@ -1,0 +1,21 @@
+{
+  "locale": "en-US",
+  "name": "LazyButNot",
+  "subtitle": "Small Steps, Lasting Progress",
+  "description": "Big goals do not have to begin with a burst of motivation. LazyButNot helps you turn goals into small actions you can actually start, then stay consistent with a clear daily list, flexible check-ins, and timely reminders.\n\nYou can:\n\n- Create multiple goals with daily, fixed-weekday, or weekly-count schedules.\n- Record a full or minimum check-in so a difficult day does not break your rhythm.\n- See pending and completed goals together on the Today screen.\n- Review completion streaks, consistency, weekly progress, and total check-ins.\n- Schedule standard notifications and supervision reminders before deadlines.\n- Personalize the app with multiple color themes.\n\nOn iOS 26 and later, you can also use alarm-style supervision reminders, focus countdowns, and Live Activities on the Lock Screen, Dynamic Island, and StandBy. On iOS 17–25, reminders use standard notifications and the AlarmKit and Live Activity features above are unavailable.\n\nGoals and check-in records stay on your device. No account, ads, in-app purchases, or cloud service is required.",
+  "keywords": "goals,habits,check-in,reminders,focus,timer,routine,productivity,streaks,planner",
+  "privacyPolicyUrl": "https://hunaocode.github.io/LazyButNot/privacy-policy/",
+  "supportUrl": "https://hunaocode.github.io/LazyButNot/support/",
+  "screenshotSets": [
+    {
+      "displayType": "APP_IPHONE_67",
+      "directory": "../../../../artifacts/app-store/2026-10-22/upload/en/iphone",
+      "clearBeforeUpload": false
+    },
+    {
+      "displayType": "APP_IPAD_PRO_3GEN_129",
+      "directory": "../../../../artifacts/app-store/2026-10-22/upload/en/ipad",
+      "clearBeforeUpload": false
+    }
+  ]
+}

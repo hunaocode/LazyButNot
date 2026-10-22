@@ -4,6 +4,8 @@
 
 本文件用于集中保存可复制到 App Store Connect 的首版文案。正式提交前仍需由账号持有人确认展示名称、副标题、法定姓名和联系方式。
 
+已接入脚本工作流：见 `toolchain/app_store_connect/README.md`。可上传文案在 `toolchain/app_store_connect/localizations/*/metadata.json`；更新时同步两处。默认预演，实际上传需 `--apply`。
+
 ## 公开 URL
 
 - Privacy Policy URL：`https://hunaocode.github.io/LazyButNot/privacy-policy/`

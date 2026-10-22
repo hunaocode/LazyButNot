@@ -1,0 +1,21 @@
+{
+  "locale": "zh-Hans",
+  "name": "懒人不懒",
+  "subtitle": "从最小行动开始，持续坚持",
+  "description": "大目标不一定要靠一次爆发完成。懒人不懒帮你把目标拆成真正能开始的最小行动，用清晰的今日清单、打卡反馈和适时提醒，把“偶尔努力”变成“持续坚持”。\n\n你可以：\n\n- 创建多个独立目标，设置每日、每周固定日或每周次数计划；\n- 为每个目标记录完成或保底完成，状态不好时也不中断节奏；\n- 在首页查看今天待完成和已完成的目标；\n- 查看连续完成、持续坚持、本周进度和累计打卡；\n- 设置普通通知与截止前监督提醒；\n- 自由切换多套颜色主题。\n\n在 iOS 26 及以上版本，你还可以使用闹钟式监督提醒、专注倒计时，以及锁屏、灵动岛和待机显示中的实时活动。iOS 17–25 使用普通通知提醒，不支持上述 AlarmKit 与实时活动能力。\n\n所有目标和打卡记录均保存在本机。无需注册账号，无广告，无内购，也不依赖云端服务。",
+  "keywords": "目标,习惯,打卡,自律,提醒,待办,专注,倒计时,计划,效率",
+  "privacyPolicyUrl": "https://hunaocode.github.io/LazyButNot/privacy-policy/",
+  "supportUrl": "https://hunaocode.github.io/LazyButNot/support/",
+  "screenshotSets": [
+    {
+      "displayType": "APP_IPHONE_67",
+      "directory": "../../../../artifacts/app-store/2026-10-22/upload/zh-Hans/iphone",
+      "clearBeforeUpload": false
+    },
+    {
+      "displayType": "APP_IPAD_PRO_3GEN_129",
+      "directory": "../../../../artifacts/app-store/2026-10-22/upload/zh-Hans/ipad",
+      "clearBeforeUpload": false
+    }
+  ]
+}

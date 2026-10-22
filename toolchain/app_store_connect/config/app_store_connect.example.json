@@ -1,0 +1,22 @@
+{
+  "auth": {
+    "issuer_id": "YOUR_ISSUER_ID",
+    "key_id": "YOUR_KEY_ID",
+    "private_key_path": "~/.appstoreconnect/lazybutnot/AuthKey_YOUR_KEY_ID.p8"
+  },
+  "app": {
+    "app_id": "YOUR_NUMERIC_APPLE_ID",
+    "bundle_id": "com.hunaocode.LazyButNot",
+    "platform": "IOS",
+    "version_string": "1.0"
+  },
+  "upload": {
+    "localizations_root": "../localizations",
+    "disabled_locales": [],
+    "allow_create_localizations": true,
+    "clear_existing_screenshots": false,
+    "continue_on_locale_error": false,
+    "poll_interval_seconds": 5,
+    "poll_timeout_seconds": 300
+  }
+}

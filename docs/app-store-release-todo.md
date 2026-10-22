@@ -108,17 +108,17 @@
 - [ ] `ASC-70` 设置价格为免费并确认税务类别；当前无内购，不需要为本版本配置付费 App 的收款银行账户。
 - [ ] `ASC-71` 选择计划发行的国家和地区。
 - [ ] `ASC-72` 检查并决定是否允许在 Apple silicon Mac 和 Apple Vision Pro 上兼容运行。
-- [ ] `ASC-73` 完成新版年龄分级问卷。
+- [x] `ASC-73` 已通过 App Store Connect API 完成新版年龄分级问卷；24 项内容声明回读一致，系统计算 App Store 年龄分级为 `4+`（2026-10-22）。
 - [ ] `ASC-74` 如实填写内容版权、医疗设备及其他合规问题。
 
 ## 八、App Privacy 与版本元数据
 
-- [ ] `ASC-75` 在 App Privacy 中填写公开的隐私政策 URL。
-- [ ] `ASC-76` 基于最终安装包重新确认是否存在数据上传、统计、广告或第三方 SDK。
-- [ ] `ASC-77` 若最终行为仍与当前代码一致，将 App Privacy 设置为“不收集此 App 的数据”并发布答案。
-- [ ] `ASC-78` 在 iOS App 1.0 页面上传中文 iPhone 和 iPad 截图。
-- [ ] `ASC-79` 添加英文商店本地化并上传对应英文素材。
-- [ ] `ASC-80` 填写 Description、Keywords、Support URL 和可选 Marketing URL。
+- [x] `ASC-75` 在 App 信息本地化中填写公开的隐私政策 URL；App Privacy 问卷仍按 ASC-76/77 单独处理（2026-10-22，经 API 回读确认）。
+- [x] `ASC-76` 已核对 App Store Connect 中 Build 1 为 `VALID`，并检查本机同版本正式归档、隐私清单、链接框架和源码数据流；未发现数据上传、广告、分析或第三方数据收集 SDK。未对 Apple 端二进制做逐字节比对，见 `docs/app-privacy-review-2026-10-22.md`（2026-10-22）。
+- [x] `ASC-77` App Privacy 已选择“否，我们不会从此 App 中收集数据”并发布；账号持有人提供的后台页面显示“未收集数据”及刚刚发布的状态（2026-10-22）。
+- [x] `ASC-78` 在 iOS App 1.0 页面上传中文 iPhone 和 iPad 截图，各 4 张且后台处理完成（2026-10-22，经 API 数量核对）。
+- [x] `ASC-79` 添加英文商店本地化并上传对应英文文案；iPhone、iPad 截图各 4 张且后台处理完成（2026-10-22，经 API 数量核对）。
+- [x] `ASC-80` 填写 Description、Keywords、Support URL；Marketing URL 首版留空。中英文文案已上传并经 API 回读确认（2026-10-22）。
 - [ ] `ASC-81` 使用个人法定姓名填写 Copyright，并填写本人可及时响应的审核联系人姓名、电话和邮箱。
 - [ ] `ASC-82` 将 Sign-in Required 设置为关闭，不提供测试账号。
 - [ ] `ASC-83` 在 App Store Connect 填写审核备注，说明本地存储、通知用途、AlarmKit 和倒计时测试路径；可直接使用 `docs/app-store-metadata.md` 中的草稿。

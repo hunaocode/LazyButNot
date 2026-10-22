@@ -38,3 +38,9 @@ fastlane/test_output
 # Keep final store images and previews; raw captures and duplicate bundles stay local.
 /artifacts/**/raw/
 /artifacts/**/*.zip
+
+# App Store Connect credentials and local state
+/toolchain/app_store_connect/config/*.local.json
+/toolchain/app_store_connect/private/
+__pycache__/
+*.pyc

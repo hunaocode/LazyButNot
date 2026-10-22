@@ -162,6 +162,12 @@
 
 ## 7. 文档优先级
 
+### App Store Connect 文案上传
+
+涉及商店文案、关键词、链接或截图上传时，先阅读 `toolchain/app_store_connect/README.md`。
+使用其中的离线检查、联网预演、显式上传、后台核对流程。配置和密钥不得写入公开文档或提交；截图替换必须明确限定语种和设备组。
+可上传文案以 `toolchain/app_store_connect/localizations/*/metadata.json` 为准，更新时同步 `docs/app-store-metadata.md`。
+
 当聊天内容、临时猜测与仓库文档冲突时，默认以仓库中的最新文档和代码实现为准。
 
 如果发现文档和代码不一致：
