@@ -1,5 +1,7 @@
 pipeline {
-      agent any
+      agent {
+        label 'macos-ios'
+      }
 
       options {
           skipDefaultCheckout(true)
@@ -8,8 +10,8 @@ pipeline {
           disableConcurrentBuilds()
 
           buildDiscarder(logRotator(
-              numToKeepStr: '20',
-              artifactNumToKeepStr: '10'
+              numToKeepStr: '5',
+              artifactNumToKeepStr: '3'
           ))
       }
 
