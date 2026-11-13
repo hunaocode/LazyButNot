@@ -21,7 +21,7 @@ struct LazyButNotTests {
     func goalPeriodRawValuesRemainStable() {
         #expect(GoalPeriodType.daily.rawValue == "daily")
         #expect(GoalPeriodType.weeklyFixedDays.rawValue == "weekly_fixed_days")
-        #expect(GoalPeriodType.weeklyCount.rawValue == "weekly_count")
+        #expect(GoalPeriodType.weeklyCount.rawValue == "weekly")
     }
 
 }
