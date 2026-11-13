@@ -37,6 +37,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1F86142130A6A48F0022E4E3"
+               BuildableName = "LazyButNotTests.xctest"
+               BlueprintName = "LazyButNotTests"
+               ReferencedContainer = "container:LazyButNot.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

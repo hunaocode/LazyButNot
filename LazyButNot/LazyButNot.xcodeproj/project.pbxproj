@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -40,8 +40,8 @@
 		9EF864EFEDC3C71C51D6AA1C /* GoalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B4070E1C662EA095E22239 /* GoalDetailView.swift */; };
 		AEC80354C8EC2A251EBAA812 /* GoalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CAFF4AF2E4DFE9C03D71B /* GoalStore.swift */; };
 		B236DDF5907C8FDCC107EB01 /* LazyButNotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDD4FF1B235172BD732904D /* LazyButNotApp.swift */; };
-		BAC282553F67E102D622CE5B /* CountdownAlarmMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0914D586BD37CFB1A8A45CCB /* CountdownAlarmMetadata.swift */; };
 		B7A100000000000000000001 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B7A100000000000000000002 /* PrivacyInfo.xcprivacy */; };
+		BAC282553F67E102D622CE5B /* CountdownAlarmMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0914D586BD37CFB1A8A45CCB /* CountdownAlarmMetadata.swift */; };
 		BE4A81A472B3D7D74313F4ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F7C62AAD8D348C20AA217B /* Foundation.framework */; };
 		C437159DB25A2D9C3F1B47A2 /* LazyButNotAlarmLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C16A21FCD3036F99B80F7F7 /* LazyButNotAlarmLiveActivity.swift */; };
 		CC7E546D5C99588E71191994 /* GoalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9AD9A443D110C726BA28E /* GoalCardView.swift */; };
@@ -53,6 +53,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1F86142630A6A48F0022E4E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74A9A7591FB53064D1FAE177 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DF7FCED325C95EAF1B3AA502;
+			remoteInfo = LazyButNot;
+		};
 		DFDED35F4F2DCEEE72D96BF4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 74A9A7591FB53064D1FAE177 /* Project object */;
@@ -94,6 +101,7 @@
 		1A1111111111111111111130 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A1111111111111111111132 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "zh-Hans.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		1B7F553A2F94475E85CC3173 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1F86142230A6A48F0022E4E3 /* LazyButNotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LazyButNotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		231E56E546CCF306F6648F99 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2864CC03747CC5A4FE06C616 /* LazyButNotWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LazyButNotWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		43AC2148D9010F9C2FB0EFAA /* CheckInRecord.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CheckInRecord.swift; sourceTree = "<group>"; };
@@ -123,7 +131,18 @@
 		D88F4967C1A1C0C6D0A4D0E6 /* HomeDashboardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HomeDashboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		1F86142330A6A48F0022E4E3 /* LazyButNotTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LazyButNotTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		1F86141F30A6A48F0022E4E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2C07C5D3CC7FEABE8336CF2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -175,6 +194,7 @@
 			children = (
 				7B36974E3267B56B0D32A6BA /* LazyButNot.app */,
 				2864CC03747CC5A4FE06C616 /* LazyButNotWidgetExtension.appex */,
+				1F86142230A6A48F0022E4E3 /* LazyButNotTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -210,6 +230,7 @@
 		A7C806E6731ED46870706145 = {
 			isa = PBXGroup;
 			children = (
+				1F86142330A6A48F0022E4E3 /* LazyButNotTests */,
 				42DED0F18948EA7A4B18E175 /* Products */,
 				D1D01FBAA590133513E06095 /* Frameworks */,
 				ED8F36BA758B3FC90B437134 /* LazyButNot */,
@@ -324,6 +345,29 @@
 			productReference = 2864CC03747CC5A4FE06C616 /* LazyButNotWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		1F86142130A6A48F0022E4E3 /* LazyButNotTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F86142A30A6A48F0022E4E3 /* Build configuration list for PBXNativeTarget "LazyButNotTests" */;
+			buildPhases = (
+				1F86141E30A6A48F0022E4E3 /* Sources */,
+				1F86141F30A6A48F0022E4E3 /* Frameworks */,
+				1F86142030A6A48F0022E4E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F86142730A6A48F0022E4E3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1F86142330A6A48F0022E4E3 /* LazyButNotTests */,
+			);
+			name = LazyButNotTests;
+			packageProductDependencies = (
+			);
+			productName = LazyButNotTests;
+			productReference = 1F86142230A6A48F0022E4E3 /* LazyButNotTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DF7FCED325C95EAF1B3AA502 /* LazyButNot */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607671FC7B5F2C1FCBA5000C /* Build configuration list for PBXNativeTarget "LazyButNot" */;
@@ -349,13 +393,17 @@
 		74A9A7591FB53064D1FAE177 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 2650;
 				LastUpgradeCheck = 2610;
 				ORGANIZATIONNAME = kl;
 				TargetAttributes = {
 					08FC46BC7A49D7AF54CA0163 = {
 						DevelopmentTeam = ZT4G687V3G;
 						ProvisioningStyle = Automatic;
+					};
+					1F86142130A6A48F0022E4E3 = {
+						CreatedOnToolsVersion = 26.5;
+						TestTargetID = DF7FCED325C95EAF1B3AA502;
 					};
 					DF7FCED325C95EAF1B3AA502 = {
 						DevelopmentTeam = ZT4G687V3G;
@@ -379,11 +427,19 @@
 			targets = (
 				DF7FCED325C95EAF1B3AA502 /* LazyButNot */,
 				08FC46BC7A49D7AF54CA0163 /* LazyButNotWidgetExtension */,
+				1F86142130A6A48F0022E4E3 /* LazyButNotTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1F86142030A6A48F0022E4E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ABE29E51A2A540540A9E6966 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -408,6 +464,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1F86141E30A6A48F0022E4E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		936CE933EF3BAE6B15D7A3E8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -457,6 +520,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1F86142730A6A48F0022E4E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DF7FCED325C95EAF1B3AA502 /* LazyButNot */;
+			targetProxy = 1F86142630A6A48F0022E4E3 /* PBXContainerItemProxy */;
+		};
 		84CCB211A4F1B4F2D0DCBC2B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LazyButNotWidgetExtension;
@@ -492,7 +560,10 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hunaocode.LazyButNot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -504,6 +575,64 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		1F86142830A6A48F0022E4E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZT4G687V3G;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hunaoCodeOne.LazyButNotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LazyButNot.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LazyButNot";
+			};
+			name = Debug;
+		};
+		1F86142930A6A48F0022E4E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZT4G687V3G;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hunaoCodeOne.LazyButNotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LazyButNot.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LazyButNot";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 		2074F3747DA1F9EFA2F648B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -582,7 +711,11 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = LazyButNotWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../../Frameworks @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../Frameworks",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hunaocode.LazyButNot.widgetextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -610,7 +743,10 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hunaocode.LazyButNot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -636,7 +772,11 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = LazyButNotWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../../Frameworks @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../Frameworks",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hunaocode.LazyButNot.widgetextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -702,7 +842,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -710,6 +851,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1F86142A30A6A48F0022E4E3 /* Build configuration list for PBXNativeTarget "LazyButNotTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F86142830A6A48F0022E4E3 /* Debug */,
+				1F86142930A6A48F0022E4E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5EFDCA8AF953C92E8BA0BE84 /* Build configuration list for PBXProject "LazyButNot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
