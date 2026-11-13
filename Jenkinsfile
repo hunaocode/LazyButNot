@@ -64,6 +64,10 @@ pipeline {
                     python3 -m unittest discover \
                       -s toolchain/app_store_connect/tests \
                       -v
+
+                    python3 -m unittest discover \
+                      -s scripts/tests \
+                      -v
                 '''
             }
         }

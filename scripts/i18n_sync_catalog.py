@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SWIFT_ROOT = ROOT / "LazyButNot"
 CATALOG_PATH = SWIFT_ROOT / "Localizable.xcstrings"
+TEST_DIRECTORY_SUFFIX = "Tests"
 
 LOCALIZED_CALL_RE = re.compile(r'String\(localized:\s*"([^"]+)"\s*,\s*defaultValue:\s*"([^"]*)"')
 LOCALIZED_RESOURCE_RE = re.compile(r'LocalizedStringResource\(\s*"([^"]+)"\s*,\s*defaultValue:\s*"([^"]*)"')
@@ -366,6 +367,12 @@ def is_probably_user_facing(text: str) -> bool:
 
 def iter_swift_files():
     for path in SWIFT_ROOT.rglob("*.swift"):
+        relative_path = path.relative_to(SWIFT_ROOT)
+        if any(
+            part.endswith(TEST_DIRECTORY_SUFFIX)
+            for part in relative_path.parts[:-1]
+        ):
+            continue
         yield path
 
 
