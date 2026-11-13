@@ -17,4 +17,11 @@ struct LazyButNotTests {
         #expect(true)
     }
 
+    @Test("目标周期持久化值保持稳定")
+    func goalPeriodRawValuesRemainStable() {
+        #expect(GoalPeriodType.daily.rawValue == "daily")
+        #expect(GoalPeriodType.weeklyFixedDays.rawValue == "weekly_fixed_days")
+        #expect(GoalPeriodType.weeklyCount.rawValue == "weekly_count")
+    }
+
 }
