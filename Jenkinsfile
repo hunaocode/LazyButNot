@@ -91,26 +91,6 @@ pipeline {
             }
         }
 
-          stage('Xcode Build') {
-              steps {
-                  sh '''
-                      set -e
-                      set -o pipefail
-
-                      mkdir -p build
-
-                      xcodebuild \
-                        -project "$PROJECT_PATH" \
-                        -scheme "$SCHEME" \
-                        -configuration Debug \
-                        -destination 'generic/platform=iOS Simulator' \
-                        -derivedDataPath "$DERIVED_DATA" \
-                        CODE_SIGNING_ALLOWED=NO \
-                        clean build 2>&1 | tee build/xcodebuild.log
-                  '''
-              }
-          }
-
           stage('Release Archive') {
               when {
                   branch 'main'
