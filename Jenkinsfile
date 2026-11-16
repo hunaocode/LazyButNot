@@ -91,7 +91,11 @@ pipeline {
             }
         }
 
-          stage('Xcode Build') {
+          stage('Release Archive') {
+              when {
+                  branch 'main'
+              }
+
               steps {
                   sh '''
                       set -e
@@ -102,11 +106,18 @@ pipeline {
                       xcodebuild \
                         -project "$PROJECT_PATH" \
                         -scheme "$SCHEME" \
-                        -configuration Debug \
-                        -destination 'generic/platform=iOS Simulator' \
-                        -derivedDataPath "$DERIVED_DATA" \
-                        CODE_SIGNING_ALLOWED=NO \
-                        clean build 2>&1 | tee build/xcodebuild.log
+                        -configuration Release \
+                        -destination 'generic/platform=iOS' \
+                        -archivePath build/LazyButNot.xcarchive \
+                        CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+                        clean archive 2>&1 | tee build/xcode-archive.log
+
+                      xcodebuild \
+                        -exportArchive \
+                        -archivePath build/LazyButNot.xcarchive \
+                        -exportPath build/export \
+                        -exportOptionsPlist ci/ExportOptions.plist \
+                        2>&1 | tee build/xcode-export.log
                   '''
               }
           }
@@ -123,7 +134,7 @@ pipeline {
 
           always {
               archiveArtifacts(
-                  artifacts: 'build/**/*.log,build/**/*.xcresult/**',
+                  artifacts: 'build/**/*.log,build/**/*.xcresult/**,build/export/*.ipa,build/export/*.plist',
                   allowEmptyArchive: true,
                   fingerprint: true
               )
