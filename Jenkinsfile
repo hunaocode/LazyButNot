@@ -93,7 +93,10 @@ pipeline {
 
           stage('Release Archive') {
               when {
-                  branch 'main'
+                  anyOf {
+                      branch 'main'
+                      buildingTag()
+                  }
               }
 
               steps {
@@ -119,6 +122,61 @@ pipeline {
                         -exportOptionsPlist ci/ExportOptions.plist \
                         2>&1 | tee build/xcode-export.log
                   '''
+              }
+          }
+
+          stage('Upload TestFlight') {
+              when {
+                  buildingTag()
+              }
+
+              steps {
+                  withCredentials([
+                      file(
+                          credentialsId: 'asc-api-private-key',
+                          variable: 'ASC_PRIVATE_KEY'
+                      ),
+                      string(
+                          credentialsId: 'asc-api-key-id',
+                          variable: 'ASC_KEY_ID'
+                      ),
+                      string(
+                          credentialsId: 'asc-api-issuer-id',
+                          variable: 'ASC_ISSUER_ID'
+                      )
+                  ]) {
+                      sh '''
+                          set -e
+
+                          mkdir -p build/private_keys
+                          install -m 600 \
+                            "$ASC_PRIVATE_KEY" \
+                            "build/private_keys/AuthKey_${ASC_KEY_ID}.p8"
+
+                          export API_PRIVATE_KEYS_DIR="$WORKSPACE/build/private_keys"
+
+                          IPA_PATH="$(find build/export -name '*.ipa' -type f -print -quit)"
+
+                          if [ -z "$IPA_PATH" ]; then
+                              echo "没有找到导出的 IPA"
+                              exit 1
+                          fi
+
+                          xcrun altool \
+                            --validate-app \
+                            -f "$IPA_PATH" \
+                            -t ios \
+                            --api-key "$ASC_KEY_ID" \
+                            --api-issuer "$ASC_ISSUER_ID"
+
+                          xcrun altool \
+                            --upload-app \
+                            -f "$IPA_PATH" \
+                            -t ios \
+                            --api-key "$ASC_KEY_ID" \
+                            --api-issuer "$ASC_ISSUER_ID"
+                      '''
+                  }
               }
           }
       }
